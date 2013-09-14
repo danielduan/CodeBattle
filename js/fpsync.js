@@ -27,17 +27,21 @@ f.once('value', function(data) {
     var playerCount = data.child('playerCount').val();
     var observerCount = data.child('observerCount').val();
     language = data.child('language').val();
+    var languageName = "text/x-" + language;
+    if (languageName == "python") {
+        languageName = {name: "python"};
+    }
     question = data.child('question').val();
     var currPlayerFormat = {
         lineNumbers: true,
-        mode: language,
-        theme: 'pad',
+        mode: languageName,
+        theme: 'default pad',
         autofocus: true
     };
     var otherPlayerFormat = {
         lineNumbers: true,
-        mode: language,
-        theme: 'pad',
+        mode: languageName,
+        theme: 'default pad',
         readOnly: 'nocursor'
     };
     if (!playerCount || playerCount == 0) {
