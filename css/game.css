@@ -35,7 +35,6 @@
 
 .top-bar {
     background-color: #3e3d32;
-    c
 }
 
 .blue {
@@ -62,9 +61,14 @@
 #PlayerDiv {
     height:600px;
 }
+#PlayerOutput {
+    padding-left: 0;
+}
+#OpponentOutput {
+    padding-right: 0;
+}
 
 /* firepad */
-
 .cm-s-pad {
     background-color:#222;
     color:#FFF;
@@ -73,33 +77,24 @@
     background-color:#333;
     color:#EEE;
 }
+.CodeMirror-gutters {
+    height: 100% !important;
+}
 .firepadConsole {
     width:100%;
 }
 .firepadConsole .CodeMirror-gutters {
     display:none;
 }
-.firepad {
-    height:600px;
+.firepadConsole .firepad {
+    height:150px;
 }
 .firepadContainer {
     width:100%;
     display:inline-block;
 }
-
-.firepad {
-	height:650px;
-}
-
-.firepadContainer {
-    width:100%;
-    display:inline-block;
-}
-
-#firepad1 {
-}
-
-#firepad2 {
+.firepadContainer .firepad {
+    height:650px;
 }
 /* unused */
 
