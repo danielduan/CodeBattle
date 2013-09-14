@@ -280,6 +280,7 @@ function send_insult() {
         player1: !player1,
         message: message
     });
+    alert('Sent "'+ message +'"')
 }
 function clearPlayer(string) {
     if (player1) {
