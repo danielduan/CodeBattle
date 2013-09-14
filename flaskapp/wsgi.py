@@ -65,7 +65,8 @@ def get_results(code, lang, questions):
   return analyze_results(output, questions)
 
 def analyze_results(output, questions):
-  actual_outputs = [output for output in output.split('\n') if output!='']
+  print output
+  actual_outputs = [output.strip() for output in output.split('\n\n') if output!='']
   expected_outputs = [output for question in questions for output in get_test_cases(question).values()]
   print actual_outputs
   print expected_outputs
@@ -95,12 +96,12 @@ def get_print_statement(code, lang, question, test_case):
   if lang == 'C' or lang == 'C++':
     print_statement += " \
         int main() { \
-          printf('%s\n'," + function_call + "); \
+          printf('%s\n\n'," + function_call + "); \
         }"
   elif lang == 'Python' or lang == 'Ruby':
-    print_statement += "print " + function_call
+    print_statement += "print " + function_call + "\nprint \"\\n\""
   elif lang == 'PHP':
-    print_statement += "printf('%s\n'," + function_call + ");"
+    print_statement += "printf('%s\n\n'," + function_call + ");"
   return print_statement
 
 if __name__ == '__main__':
