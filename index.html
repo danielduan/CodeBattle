@@ -9,8 +9,8 @@
 
   
   	<link rel="stylesheet" href="css/foundation.css">
-  	<link rel="stylesheet" href="css/title.css"
-
+  	<link rel="stylesheet" href="css/title.css">
+  	<script src="https://cdn.firebase.com/v0/firebase.js"></script>
   	<script src="js/vendor/custom.modernizr.js"></script>
 
 </head>
@@ -33,7 +33,14 @@
 			</div>
 		</div>
 		<div class="row">
-			<div id="JoinCodeInput" class="large-6 large-centered columns">
+			<div id="JoinCodeInput" class="large-6 text-right columns">
+				<select id="LanguageSelector">
+					<option value="python">Python</option>
+					<option value="ruby">Ruby</option>
+					<option value="php">PHP</option>
+				</select>
+			</div>
+			<div id="JoinCodeInput" class="large-6 text-left columns">
 				<input id="JoinCode" type="text" placeholder="Paste game session ID here.">
 			</div>
 		</div>
@@ -57,7 +64,13 @@
 		document.getElementById('GameCreateButton').addEventListener('click', function (event) {
 			event.preventDefault();
 			var id = Math.floor((Math.random()*1000000000));
-			document.location.href = "game.html?game=" + id;
+			var game = Math.floor((Math.random()*5));
+			var lang = document.getElementById('LanguageSelector').value;
+			var f = new Firebase("https://codebattle.firebaseio.com/games/"+id);
+			var q = ["double", "reverse"];
+			f.set({language:lang, questions:q}, function() {
+				document.location.href = "game.html?game=" + id;
+			});
 		});
 	</script>
 
