@@ -1,0 +1,63 @@
+#StartPageDiv {
+	text-align: center;
+	margin-top: 200px;
+}
+
+#GameNameDiv {
+	font-size: 40px;
+	font-family: "Courier New", Courier, monospace;
+	/*font-weight: 600;*/
+	line-height: 150%;
+}
+
+#GameStartDiv {
+	font-size: 25px;
+	font-family: "Courier New", Courier, monospace;
+}
+
+#JoinCode {
+	visibility: hidden;
+	margin-top: 25px;
+	margin-bottom: 25px;
+}
+
+#GameStartDiv .button {
+	background-color: #3e3d32;
+	border-style: none;
+	font-weight: 300;
+}
+
+#Text {
+	text-align: left;
+}
+
+#LineNum {
+	text-align: right;
+	color: #8f908a;
+	background-color: #3e3d32;
+}
+
+.blue {
+	color: #66d9ef;
+	font-style: italic;
+}
+
+.white {
+	color: #ffffff;
+}
+
+.magenta {
+	color: #f92672;
+}
+
+.yellow {
+	color: #e3d873;
+}
+
+.purple {
+	color: #ae81ff;
+}
+
+body {
+	background-color: #272822;
+}

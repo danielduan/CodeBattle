@@ -1,0 +1,138 @@
+.code {
+    font-family: "Courier New", Courier, monospace;
+}
+
+#topbar {
+    font-family: 'Lucida Grande', 'Arial', sans-serif;
+    text-shadow: 0px 1px #f1f1f1;
+    height: 24px;
+    color: #414141;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    background-image: url('../img/bar.jpg');
+    background-repeat: repeat-x;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom: 1px solid #696969;
+    border-top: rgba(0,0,0,0.5);
+    border-left: rgba(0,0,0,0.5);
+    border-right: rgba(0,0,0,0.5);
+}
+
+#topbar span {
+    position: relative;
+    top: 5px;
+}
+
+#Title {
+    font-size: 60px;
+    color: #8f908a;
+    background-color: #3e3d32;
+    text-align: center;
+}
+
+.top-bar {
+    background-color: #3e3d32;
+}
+
+.blue {
+    color: #66d9ef;
+    font-style: italic;
+}
+
+.white {
+    color: #ffffff;
+}
+
+.magenta {
+    color: #f92672;
+}
+
+.yellow {
+    color: #e3d873;
+}
+
+.purple {
+    color: #ae81ff;
+}
+
+#PlayerDiv {
+    height:600px;
+}
+
+#FirepadDiv {
+}
+
+.powerup li
+{
+display: inline;
+list-style-type: none;
+padding-right: 10px;
+}
+
+#PlayerOutput {
+    padding-left: 0;
+}
+#OpponentOutput {
+    padding-right: 0;
+}
+
+#OutputDiv .button {
+    background-color: #3e3d32;
+    border-style: none;
+    font-weight: 300;
+    margin-top: 25px;
+}
+
+/* firepad */
+.cm-s-pad {
+    //background-color:#222;
+    //color:#FFF;
+}
+.cm-s-console {
+    background-color:#333;
+    color:#EEE;
+}
+.CodeMirror-gutters {
+    height: 100% !important;
+}
+.firepadConsole {
+    width:100%;
+}
+.firepadConsole .CodeMirror-gutters {
+    display:none;
+}
+.firepadConsole .firepad {
+    height:150px;
+}
+.firepadContainer {
+    width:100%;
+    display:inline-block;
+}
+.firepadContainer .firepad {
+    height:650px;
+}
+/* unused */
+
+#GameStartDiv .button {
+    background-color: #3e3d32;
+    border-style: none;
+    font-weight: 300;
+}
+
+#Text {
+    text-align: left;
+}
+
+#LineNum {
+    text-align: right;
+    color: #8f908a;
+    background-color: #3e3d32;
+}
+
+body {
+    background-color: #272822;
+    color:white;
+}
