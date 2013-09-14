@@ -195,6 +195,10 @@ function submitCode() {
         { game: gameNum, player: player, code: code, questions: JSON.stringify(questions), lang: language },
         function(data){
             var allQuestionsPassed = true;
+            if(data == 'ERROR') {
+              append('Syntax Error: Please fix your code before resubmitting!');
+              return
+            }
             for (var i = 0; i < questions.length; i++) {
                 var question = questions[i];
                 append("Question: " + question);
@@ -337,7 +341,7 @@ function party_mode(player) {
 }
 function powerupHandler(question, user, powerup) {
     $("#"+question).remove();
-    
+
     if ((user == 0 && player1) || (user == 1 && !player1)) {
         if (powerup == 'party') {
             party_mode(user);
