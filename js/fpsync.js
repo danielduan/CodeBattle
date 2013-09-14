@@ -267,15 +267,7 @@ function submitCode() {
 }
 
 function send_insult() {
-    var jokes = new Array();
-    jokes.push("So what are you, a web developer?");
-    jokes.push("Your code is so bad your child processes disowned you.");
-    jokes.push("Are you sure your not an accountant working on a second career?");
-    jokes.push("Your code is so bloated, it requires its own zip code.");
-    jokes.push("I could have done that in three lines.");
-    jokes.push("What does your code have in common with C? No class.");
     var message = jokes[Math.floor((Math.random()*jokes.length))];
-    console.log('message', message);
     f.child('insults').push({
         player1: !player1,
         message: message

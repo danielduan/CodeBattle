@@ -94,18 +94,22 @@
     <script src="js/foundation.min.js"></script>
 
     <script>
+        var jokes = new Array();
+        jokes.push("So what are you, a web developer?");
+        jokes.push("Your code is so bad your child processes disowned you.");
+        jokes.push("Are you sure your not an accountant working on a second career?");
+        jokes.push("Your code is so bloated, it requires its own zip code.");
+        jokes.push("I could have done that in three lines.");
+        jokes.push("What does your code have in common with C? No class.");
+        jokes.push("Don't worry about it, I'll get someone technical to do it.");
+        jokes.push("Your code is as secure as me walking around naked carying a bag of money!");
+        jokes.push("Your codes so bad that your run time only walks.");
+ 
         function displayModal(isWinner) {
             if (isWinner) {
                 document.getElementById('modalMessage').innerHTML = "Nice one. You're one step closer to being a l33t h4x0r. :D";
                 $('#GameModal').foundation('reveal', 'open');
             } else {
-                var jokes = new Array();
-                jokes.push("So what are you, a web developer?");
-                jokes.push("Your code is so bad your child processes disowned you.");
-                jokes.push("Are you sure your not an accountant working on a second career?");
-                jokes.push("Your code is so bloated, it requires its own zip code.");
-                jokes.push("I could have done that in three lines.");
-                jokes.push("What does your code have in common with C? No class.");
                 document.getElementById('modalStatus').innerHTML = "You suck!";
                 document.getElementById('modalMessage').innerHTML = jokes[Math.floor((Math.random()*jokes.length))];
                 $('#GameModal').foundation('reveal', 'open');
