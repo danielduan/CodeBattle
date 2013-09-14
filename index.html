@@ -96,7 +96,6 @@
         document.getElementById('GameCreateButton').addEventListener('click', function (event) {
             event.preventDefault();
             var id = Math.floor((Math.random()*1000000000));
-            var game = Math.floor((Math.random()*5));
             var lang = document.getElementById('LanguageSelector').value;
             var f = new Firebase("https://codebattle.firebaseio.com/games/"+id);
             var q = [];
