@@ -85,7 +85,7 @@ f.child('player2').child('userID').on('value', function(snapshot) {
 });
 f.child('insults').on('child_added', function(data) {
     console.log(data.val());
-    if (data.val().player1 == player1) {
+    if (data.val().player1 == player1 || typeof player1 === 'undefined') {
         show_joke(data.val().message);
     }
 });
