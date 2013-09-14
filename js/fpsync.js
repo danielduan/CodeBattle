@@ -61,7 +61,7 @@ f.once('value', function(data) {
     };
     var otherPlayerFormat = {
         lineNumbers: true,
-        mode: languageName,
+        mode: "text/plain",
         indentUnit: 4,
         tabMode: "shift",
         theme: 'default pad blurry',
@@ -120,7 +120,6 @@ f.once('value', function(data) {
 });
 function setOriginalText(data, firepad) {
     var initial = "";
-    console.log(data);
     for (var i = 0; i < questions.length; i++) {
         if (language == "python") {
             initial += "\"\"\"\n";

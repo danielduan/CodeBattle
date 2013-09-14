@@ -10,7 +10,6 @@
     <script src="js/questions.js"></script>
     <script src="https://cdn.firebase.com/v0/firebase.js"></script>
     <script src="codemirror/lib/codemirror.js"></script>
-    <script src="codemirror/mode/clike/clike.js"></script>
     <script src="codemirror/mode/php/php.js"></script>
     <script src="codemirror/mode/python/python.js"></script>
     <script src="codemirror/mode/ruby/ruby.js"></script>
@@ -31,13 +30,15 @@
           <span id="status" class="purple"></span>
         </div>
     </div>
-    <div id="PowerupDiv">
+    <div id="PowerupDiv" class="large-12 small-12 columns">
       <div id="powerupdiv0" class="large-6 small-12 columns">
         <ul id="powerups0" class="powerup">
+            <li style="height:100px;">Powerups:</li>
         </ul>
       </div>
       <div id="powerupdiv1" class="large-6 small-12 columns">
         <ul id="powerups1" class="powerup">
+            <li style="height:100px;">Powerups:</li>
         </ul>
       </div>
     </div>
@@ -66,12 +67,14 @@
         </div>
     </div>
 
-        <div id="GameModal" class="reveal-modal">
-          <h2><span id="modalStatus">Awesome. I have it.</span></h2>
-          <p class="lead">Your couch.  It is mine.</p>
-          <p>Im a cool paragraph that lives inside of an even cooler modal. Wins</p>
-          <a class="close-reveal-modal">&#215;</a>
-        </div>
+    <div id="GameModal" class="reveal-modal">
+      <h2><span id="modalStatus">Awesome. I have it.</span></h2>
+      <div>
+        <a href="hi" class="button">Next Game</a>
+      </div>
+      <a class="close-reveal-modal">&#215;</a>
+    </div>
+
     <script>
         function displayModal(message) {
             document.getElementById('modalStatus').innerHTML = message;
