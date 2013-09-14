@@ -26,11 +26,15 @@
     top: 5px;
 }
 
+#gameIDDiv {
+    font-size: 25px;
+}
+
 #Title {
     font-size: 60px;
+    padding:15px;
     color: #8f908a;
     background-color: #3e3d32;
-    text-align: center;
 }
 
 .top-bar {

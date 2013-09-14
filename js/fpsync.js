@@ -1,4 +1,5 @@
 var gameNum = getParam('game');
+document.getElementById('gameID').innerHTML = " " + gameNum;
 if (!gameNum) {
     document.location.href = "index.html";
 }
