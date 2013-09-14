@@ -67,18 +67,35 @@
         </div>
     </div>
 
-        <div id="GameModal" class="reveal-modal">
-          <h2><span id="modalStatus">Awesome. I have it.</span></h2>
+        <div id="GameModal" class="code reveal-modal text-center">
+          <span id="modalStatus" class="code">Awesome. I have it.</span>
+          <p><span id="modalMessage">asdfawefa sdf awef a</span></p>
           <div>
-            <a href="hi" class="button">Next Game</a>
+            <a href="#" class="button secondary">Next Game</a>
+            <a href="index.html" class="button secondary">Back to Menu</a>
           </div>
           <a class="close-reveal-modal">&#215;</a>
         </div>
 
     <script>
-        function displayModal(message) {
-            document.getElementById('modalStatus').innerHTML = message;
-            $('#GameModal').foundation('reveal', 'open');
+        function displayModal(isWinner) {
+            if (isWinner) {
+                document.getElementById('modalStatus').innerHTML = "Congratulations! You won!";
+                document.getElementById('modalMessage').innerHTML = "Nice one. You're one step closer to being a l33t h4x0r. :D";
+                $('#GameModal').foundation('reveal', 'open');
+            } else {
+                var jokes = new Array();
+                jokes.push("So what are you, a web developer?");
+                jokes.push("Your code is so bad your child processes disowned you.");
+                jokes.push("Are you sure your not an accountant working on a second career?");
+                jokes.push("A valiant effort, though. Do you work for Microsoft?");
+                jokes.push("Your code is so bloated, it requires its own zip code.");
+                jokes.push("I could have done that in three lines.");
+                jokes.push("What does your code have in common with C? No class.");
+                document.getElementById('modalStatus').innerHTML = "You suck!";
+                document.getElementById('modalMessage').innerHTML = jokes[Math.floor((Math.random()*jokes.length))];
+                $('#GameModal').foundation('reveal', 'open');
+            }
         }
     </script>
 

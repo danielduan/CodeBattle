@@ -21,6 +21,20 @@
     border-right: rgba(0,0,0,0.5);
 }
 
+#modalStatus {
+    text-align: center;
+    font-size: 60px;
+}
+
+#GameModal {
+    background-color: #eeeeee;
+    color: #000000;
+}
+
+#modalMessage {
+    font-size: 30px;
+}
+
 #topbar span {
     position: relative;
     top: 5px;
