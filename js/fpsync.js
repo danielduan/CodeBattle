@@ -90,15 +90,35 @@ f.once('value', function(data) {
     firepad2 = Firepad.fromCodeMirror(f.child('player2').child('code'), codeMirror2);
     firepad1.on('ready', function() {
         if (firepad1.isHistoryEmpty()) {
-            firepad1.setText('Player 1');
+            $.get(
+                "../questions.json",
+                function(data) {
+                    setOriginalText(data, firepad1);
+                },
+                "json"
+            );
         }
     });
     firepad2.on('ready', function() {
         if (firepad2.isHistoryEmpty()) {
-            firepad2.setText('Player 2');
+            $.get(
+                "../questions.json",
+                function(data) {
+                    setOriginalText(data, firepad2);
+                },
+                "json"
+            );
         }
     });
 });
+function setOriginalText(data, firepad) {
+    var inital = "";
+    for(var i = 0; i < questions.length; i++) {
+        inital += data[questions[i]]["comments"] + "\n";
+        inital += data[questions[i]][language] + "\n";
+    }
+    firepad.setText(initial);
+};
 function submitCode() {
     var player = "2";
     var code = codeMirror2.getDoc().getValue();
