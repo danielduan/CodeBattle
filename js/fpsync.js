@@ -3,15 +3,15 @@ document.getElementById('gameID').innerHTML = " " + gameNum;
 if (!gameNum) {
     document.location.href = "index.html";
 }
-var userID;
+var userID="6";
 var f = new Firebase('https://codebattle.firebaseio.com/games/'+gameNum);
-var auth = new FirebaseSimpleLogin(f, function(error, user) {
+/*var auth = new FirebaseSimpleLogin(f, function(error, user) {
     if (user) {
         userID = user.id;
     } else {
         document.location.href = "index.html";
     }
-});
+});*/
 var player1, codeMirror1, codeMirror2, firepad1, firepad2, language, playerCount, observerCount;
 var questions = [];
 var observer = false;
@@ -77,7 +77,6 @@ firepadConsole2.on('ready', function() {
 });
 f.once('value', function(data) {
     var playerCount = data.child('playerCount').val();
-    var observerCount = data.child('observerCount').val();
     language = data.child('language').val();
     var languageName = "text/x-" + language;
     if (languageName == "python") {
@@ -131,7 +130,7 @@ f.once('value', function(data) {
         document.getElementById('status').innerHTML = "Player 2";
     } else {
         observer = true;
-        f.child('observerCount').set(observerCount + 1);
+        f.child('observers').child(userID).set(true);
         codeMirror1 = CodeMirror(document.getElementById('firepad1'), observerFormat);
         codeMirror2 = CodeMirror(document.getElementById('firepad2'), observerFormat);
         document.getElementById('submit1').className += ' disabled';
@@ -165,15 +164,18 @@ f.once('value', function(data) {
             f.child('playerCount').onDisconnect().set(playerCount - 1);
         }
     });
-    f.child('observerCount').on('value', function(data) {
-        observerCount = data.val();
+    f.child('observers').on('value', function(data) {
+        observerCount = 0;
+        data.forEach(function(child) {
+            observerCount++;
+        });
         if (!observer) return;
         if (observerCount == 1 && playerCount == 0) {
             f.onDisconnect().cancel();
             f.onDisconnect().set(null);
         } else {
-            f.child('observerCount').onDisconnect().cancel();
-            f.child('observerCount').onDisconnect().set(observerCount - 1);
+            f.child('observers').child(userID).onDisconnect().cancel();
+            f.child('observers').child(userID).onDisconnect().set(null);
         }
     });
 });
