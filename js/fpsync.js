@@ -16,10 +16,10 @@ console2 = CodeMirror(document.getElementById('console2'), consoleFormat);
 firepadConsole1 = Firepad.fromCodeMirror(f.child('player1').child('console'), console1);
 firepadConsole2 = Firepad.fromCodeMirror(f.child('player2').child('console'), console2);
 f.child('player1').child('console').on('value', function() {
-    console1.getDoc().setCursor(9007199254740992, 0);
+    console1.getDoc().setCursor(0, 0);
 });
 f.child('player2').child('console').on('value', function() {
-    console2.getDoc().setCursor(9007199254740992, 0);
+    console2.getDoc().setCursor(0, 0);
 });
 f.child('winner').on('value', function(data) {
     if (data.val()) {
@@ -183,6 +183,7 @@ function setOriginalText(data, firepad) {
 function submitCode() {
     if (observer) return;
     var player = "2";
+    clearPlayer(player);
     var code = codeMirror2.getDoc().getValue();
     if (player1) {
         player = "1";
@@ -229,6 +230,13 @@ function submitCode() {
         },
         "jsonp"
     );
+}
+function clearPlayer(string) {
+    if (player1) {
+      console1.getDoc().setValue('');
+    } else {
+      console2.getDoc().setValue('');
+    }
 }
 function append(string) {
     if (player1) {
