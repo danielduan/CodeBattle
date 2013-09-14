@@ -96,14 +96,16 @@ padding-right: 10px;
 #OutputDiv .button {
     background-color: #3e3d32;
     border-style: none;
+    padding-left: 20%;
+    padding-right: 20%;
     font-weight: 300;
     margin-top: 25px;
 }
 
 /* firepad */
 .cm-s-pad {
-    //background-color:#222;
-    //color:#FFF;
+    background-color:#222;
+    color:#FFF;
 }
 .cm-s-console {
     background-color:#333;
