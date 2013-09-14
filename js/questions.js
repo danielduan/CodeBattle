@@ -15,7 +15,7 @@ var problems = {
     "python": "def prime(x):\n return False",
     "ruby": "def prime(x)\n return false\nend",
     "php": "function prime($x)\n{\n\treturn false;\n}",
-    "comments": "Prime\n======\nGiven an integer x, determine if it is prime.\n\nINPUT\n2\n\nOUTPUT\nTrue"
+    "comments": "Prime\n======\nGiven an integer x, determine if it is prime.\n\nINPUT\n2\n\nOUTPUT\n'true'"
   },
   "reverse": {
     "python": "def reverse(x):\n return \"\"",
@@ -39,7 +39,7 @@ var problems = {
     "python": "def string_match(s):\n return \"\"",
     "ruby": "def string_match(s)\n return \"\"\nend",
     "php": "function string_match($s)\n{\n\treturn \"\";\n}",
-    "comments": "String Match\n=======\nGiven a string with two space delimited strings, a and b, return the number of the positions \nwhere they contain the same length 2 substring.\n\nINPUT\n\"'xxcaazz xxbaaz'\"\n\nOUTPUT\n\"3\""
+    "comments": "String Match\n=======\nGiven a string with two space delimited strings, a and b, return the number \nof the positions where they contain the same length 2 substring.\n\nINPUT\n\"'xxcaazz xxbaaz'\"\n\nOUTPUT\n\"3\""
   },
   "median": {
     "python": "def median(s):\n return \"\"",

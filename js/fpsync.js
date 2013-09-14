@@ -151,7 +151,7 @@ function submitCode() {
         code = codeMirror1.getDoc().getValue();
     }
     $.get(
-        "http://codebattle.aws.af.cm/run_tests",
+        "http://codebattle.ngrok.com/run_tests",
         { game: gameNum, player: player, code: code, questions: JSON.stringify(questions), lang: language },
         function(data){
             var allQuestionsPassed = true;
