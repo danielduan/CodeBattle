@@ -423,6 +423,7 @@ function show_joke(message) {
 }
 
 function powerupHandler(question, user, powerup) {
+    //$("#"+question).hide('pulsate', {}, 1000);
     $("#"+question).remove();
     
     if ((user == 0 && player1) || (user == 1 && !player1)) {
