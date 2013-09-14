@@ -65,7 +65,7 @@ f.once('value', function(data) {
         mode: languageName,
         indentUnit: 4,
         tabMode: "shift",
-        theme: 'default pad',
+        theme: 'default',
         autofocus: true
     };
     var otherPlayerFormat = {
@@ -73,7 +73,7 @@ f.once('value', function(data) {
         mode: "text/plain",
         indentUnit: 4,
         tabMode: "shift",
-        theme: 'default pad blurry',
+        theme: 'blurry',
         readOnly: 'nocursor'
     };
     var observerFormat = {
@@ -81,7 +81,7 @@ f.once('value', function(data) {
         mode: languageName,
         indentUnit: 4,
         tabMode: "shift",
-        theme: 'default pad',
+        theme: 'default',
         readOnly: 'nocursor'
     };
     if (!playerCount || playerCount == 0) {
@@ -233,24 +233,33 @@ function getCodeMirror(player) {
     }
 }
 
+function getCodeDiv(player) {
+    if (player === "1" ) {
+        return "PlayerDiv";
+    } else {
+        return "OpponentDiv";
+    }
+}
 function unblur(player) {
     var thisCodeMirror = getCodeMirror(player);
     var previousTheme = thisCodeMirror.getOption('theme');
     thisCodeMirror.setOption('theme', 'default pad');
     setTimeout(function() {
         thisCodeMirror.setOption('theme', previousTheme);
-    }, 3000)
+    }, 5000)
 }
 
 function party_mode(player) {
+    var codeDiv = getCodeDiv(player);
     var thisCodeMirror = getCodeMirror(player);
-    var previousTheme = thisCodeMirror.getOption('theme');
-    thisCodeMirror.setOption('theme', 'party');
-    $(".cm-s-party .CodeMirror-code").blink();
+    var theme = thisCodeMirror.getOption('theme');
+    $("#" + codeDiv + " .CodeMirror-code").blink();
+    var sound = new Audio('assets/music.mp3');
+    sound.play();
     setTimeout(function() {
-        $(".cm-s-party .CodeMirror-code").unblink();
-        thisCodeMirror.setOption('theme', previousTheme);
-    }, 3000)
+        $("#" + codeDiv + " .CodeMirror-code").unblink();
+        sound.pause();
+    }, 15000)
 }
 function powerupHandler(question, user, powerup) {
     if (obsever) return;
