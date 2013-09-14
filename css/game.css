@@ -39,6 +39,26 @@
 	height:600px;
 }
 
+/* firepad */
+
+.cm-s-pad {
+            background-color:#222;
+            color:#FFF;
+        }
+        .firepad {
+            height:600px;
+        }
+        .firepadContainer {
+            width:40%;
+            display:inline-block;
+        }
+        #firepad1 {
+            margin-left:5%;
+        }
+        #firepad2 {
+            margin-left:10%;
+        }
+
 /* unused */
 
 #GameStartDiv .button {

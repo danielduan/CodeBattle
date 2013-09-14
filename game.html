@@ -6,10 +6,18 @@
 		<meta charset="utf-8">
   		<meta name="viewport" content="width=device-width">
   	<title>CodeBattle </title>
-
-  
-  	<link rel="stylesheet" href="css/foundation.css">
-  	<link rel="stylesheet" href="css/game.css"
+    <meta charset="utf-8" />
+    <script src="https://cdn.firebase.com/v0/firebase.js"></script>
+    <script src="codemirror/lib/codemirror.js"></script>
+    <script src="codemirror/mode/clike/clike.js"></script>
+    <script src="codemirror/mode/php/php.js"></script>
+    <script src="codemirror/mode/python/python.js"></script>
+    <script src="codemirror/mode/ruby/ruby.js"></script>
+    <link rel="stylesheet" href="codemirror/lib/codemirror.css" />
+    <script src="firepad.js"></script>
+  	<link rel="stylesheet" href="css/foundation.css" />
+  	<link rel="stylesheet" href="css/game.css" />
+    <link rel="stylesheet" href="firepad.css" />
 
   	<script src="js/vendor/custom.modernizr.js"></script>
 
@@ -20,10 +28,10 @@
     </div>
   <div class="row">
   		<div id="PlayerDiv" class="large-6 small-12 columns">
-      player code here
+        <div id="firepad1" class="firepadContainer"></div>
       </div>
       <div id="OpponentDiv" class="large-6 small-12 columns">
-        Oppoenent code here
+        <div id="firepad2" class="firepadContainer"></div>
       </div>
   </div>
   <div class="row">
