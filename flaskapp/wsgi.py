@@ -40,8 +40,8 @@ def get_test_cases(question):
   sumlist = {
     "'1 2 3 4 5'"   : '15',
     "'1 3 5 7 100'" : '116',
-    "'1'"           : '1',
-    "''"            : '0'
+    # "'1'"           : '1',
+    # "''"            : '0'
   }
 
   anagrams = {
@@ -120,7 +120,8 @@ def analyze_results(output, questions):
   # results = {}
   print "LENGTHS", len(actual_outputs), len(expected_outputs)
   if len(actual_outputs) != len(expected_outputs):
-    if len(actual_outputs) > 0 and 'line' in actual_outputs[-1].lower():
+    print 'BAD here', actual_outputs[-1].lower()
+    if len(actual_outputs) > 0 and 'traceback' not in actual_outputs[-1].lower():
       results = ''
     else:
       results = "'ERROR'"
@@ -138,7 +139,7 @@ def analyze_results(output, questions):
     last_question = question
     if actual == expected[1]:
       results[question][i] = 'PASS'
-    elif 'error' in actual.lower() or 'line' in actual.lower() or 'traceback' in actual.lower():
+    elif len(actual.lower()) > 0 and ('error' in actual.lower() or 'line' in actual.lower() or 'traceback' in actual.lower() or 'is not defined' in actual.lower()):
       print 'ERROR message', actual.lower()
       results[question][i] = 'ERROR'
     else:
@@ -167,6 +168,7 @@ def get_print_statement(code, lang, question, test_case):
         }"
   elif lang == 'Python':
     print_statement += "print " + 'str('+function_call+')' + "+'!@#'\n"
+    print print_statement
   elif lang == 'Ruby':
     print_statement += "print " + function_call+'.to_s' + "+'!@#'\n"
   elif lang == 'PHP':
