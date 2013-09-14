@@ -26,7 +26,7 @@
 				5<br>
 			</div>
 			<div id="Text" class="large-11 small-1 white columns">
-				<span class="blue">var</span> CodeBattle <span class="magenta">=</span> {}; <br>
+				<span class="blue">var</span>CodeBattle<span class="magenta">=</span> {}; <br>
 				CodeBattle.Players <span class="magenta">=</span> [<span class="yellow">'You'</span>,<span class="yellow">'Friend'</span>]; <br>
 				CodeBattle.Objective <span class="magenta">=</span> <span class="yellow">'Write code'</span>; <br>
 				CodeBattle.Timed <span class="magenta">=</span> <span class="purple">true</span>; <br>
@@ -48,6 +48,16 @@
 			event.preventDefault();
 			document.getElementById('GameCreateButton').style.display = 'none';
 			document.getElementById('JoinCode').style.visibility = 'visible';
+			document.getElementById('GameJoinButton').addEventListener('click', function (event) {
+				var id = document.getElementById('JoinCode').value;
+				document.location.href = "game.html?game=" + id;
+			});
+		});
+
+		document.getElementById('GameCreateButton').addEventListener('click', function (event) {
+			event.preventDefault();
+			var id = Math.floor((Math.random()*1000000000));
+			document.location.href = "game.html?game=" + id;
 		});
 	</script>
 
