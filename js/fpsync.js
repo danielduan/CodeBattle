@@ -35,12 +35,16 @@ f.once('value', function(data) {
     var currPlayerFormat = {
         lineNumbers: true,
         mode: languageName,
+        indentUnit: 4,
+        tabMode: "shift",
         theme: 'default pad',
         autofocus: true
     };
     var otherPlayerFormat = {
         lineNumbers: true,
         mode: languageName,
+        indentUnit: 4,
+        tabMode: "shift",
         theme: 'default pad',
         readOnly: 'nocursor'
     };
@@ -84,13 +88,13 @@ function submitCode() {
         player = "1";
         code = codeMirror1.getDoc().getValue();
     }
-    $.post(
+    $.get(
         "http://codebattle.ngrok.com/run_tests",
         { game: gameNum, player: player, code: code, question: question, lang: language },
         function(data){
             console.log(data);
         },
-        "json"
+        "jsonp"
     );
 }
 function getParam(name) {
