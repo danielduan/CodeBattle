@@ -428,7 +428,7 @@ function powerupHandler(question, user, powerup) {
     //$("#"+question).hide('pulsate', {}, 1000);
     $("#"+question).remove();
     
-    if ((user == 0 && player1) || (user == 1 && !player1)) {
+    if ((user == 0 && player1) || (user == 1 && !player1) || observer) {
         if (powerup == 'party') {
             party_mode(user);
         } else if (powerup == 'removeline') {
@@ -437,11 +437,11 @@ function powerupHandler(question, user, powerup) {
             unblur(user);
         }
     }
-    if (observer) {
-        show_joke("User " + (user + 1) + " sent " + powerup);
-        setTimeout(function() {
-            $('#JokeModal').foundation('reveal', 'close');
-        }, 100);
-    }
+    // if (observer) {
+    //     show_joke("User " + (user + 1) + " sent " + powerup);
+    //     setTimeout(function() {
+    //         $('#JokeModal').foundation('reveal', 'close');
+    //     }, 100);
+    // }
     //console.log(question, powerup, user);
 }
