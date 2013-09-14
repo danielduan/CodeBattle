@@ -49,6 +49,12 @@
 			document.getElementById('GameCreateButton').style.display = 'none';
 			document.getElementById('JoinCode').style.visibility = 'visible';
 		});
+
+		document.getElementById('GameCreateButton').addEventListener('click', function (event) {
+			event.preventDefault();
+			var id = Math.floor((Math.random()*1000000));
+			document.location.href = "game.html?game=" + id;
+		});
 	</script>
 
   	<script>
