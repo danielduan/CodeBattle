@@ -388,7 +388,7 @@ function removeLine(divID) {
 
     text = textArray.join("\n");
 
-    if (divID == 0) {
+    if (divID == 1) {
         firepad1.setText(text);
     } else {
         firepad2.setText(text);
@@ -433,7 +433,8 @@ function powerupHandler(question, user, powerup) {
         } else if (powerup == 'unblur') {
             unblur(user);
         }
-    } else {
+    }
+    if (observer) {
         show_joke("User " + (user + 1) + " sent " + powerup);
         setTimeout(function() {
             $('#JokeModal').foundation('reveal', 'close');
