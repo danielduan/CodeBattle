@@ -138,7 +138,8 @@ def analyze_results(output, questions):
     last_question = question
     if actual == expected[1]:
       results[question][i] = 'PASS'
-    elif 'error' or 'line' or 'traceback' in actual.lower():
+    elif 'error' in actual.lower() or 'line' in actual.lower() or 'traceback' in actual.lower():
+      print 'ERROR message', actual.lower()
       results[question][i] = 'ERROR'
     else:
       results[question][i] = 'FAIL'
