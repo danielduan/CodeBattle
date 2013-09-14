@@ -31,10 +31,22 @@ f.child('winner').on('value', function(data) {
     }
 });
 f.child('powerups').on('child_added', function(data) {
-    var powerup = "party";
     var question = data.name();
     var difficulty = problems[question]['difficulty'];
-    var powerup = "shield";
+
+    var choose = {};
+    choose['double'] = "unblur";
+    choose['square'] = "removeline";
+    choose['prime'] = "party";
+    choose['reverse'] = "unblur";
+    choose['sumlist'] = "removeline";
+    choose['anagrams'] = "party";
+    choose['string_match'] = "unblur";
+    choose['median'] = "removeline";
+    choose['thirty_times'] = "party";
+
+    var powerup = choose[question];
+
     if (data.val() == "player1") {
         addPowerup(question, powerup, 0);
     } else {
@@ -281,7 +293,7 @@ function getCodeDiv(player) {
 function removeLine(divID) {
     var text;
 
-    if (divID == 0) {
+    if (divID == 1) {
         text = firepad1.getText();
         var oldTheme = codeMirror1.getOption('theme');
         codeMirror1.setOption('theme', 'changed');
@@ -337,12 +349,14 @@ function party_mode(player) {
 }
 function powerupHandler(question, user, powerup) {
     $("#"+question).remove();
-    
+    console.log(player1);
     if ((user == 0 && player1) || (user == 1 && !player1)) {
         if (powerup == 'party') {
             party_mode(user);
-        } else if (powerup == 'party') {
+        } else if (powerup == 'removeline') {
             removeLine(user);
+        } else if (powerup == 'unblur') {
+            unblur(user);
         }
     }
     console.log(question, powerup, user);
