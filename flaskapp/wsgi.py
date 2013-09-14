@@ -89,7 +89,7 @@ def run_tests():
   callback = str(request.args['callback'])
   player = str(request.args['player'])
   code = str(request.args['code'])
-  print code
+  # print code
   questions = json.loads(str(request.args['questions']))
   # print "QS", questions
   # print 'printing'
@@ -116,7 +116,7 @@ def get_results(code, lang, questions):
 
 def analyze_results(output, questions):
   print output
-  actual_outputs = [output.strip() for output in output.split('!@#')][:-1]
+  actual_outputs = [output.replace('\n','') for output in output.split('!@#')][:-1]
   expected_outputs = [(question, output) for question in questions for output in get_test_cases(question).values()]
   print actual_outputs
   print expected_outputs

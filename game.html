@@ -66,12 +66,11 @@
             <div id="submit1" href="#" onclick="submitCode()" class="button"><img src="img/submit.png"></div>
         </div>
     </div>
-    
+
     <div id="GameModal" class="code reveal-modal text-center">
       <span id="modalStatus" class="code">Awesome. I have it.</span>
       <p><span id="modalMessage">asdfawefa sdf awef a</span></p>
       <div>
-        <a href="#" class="button secondary">Next Game</a>
         <a href="index.html" class="button secondary">Back to Menu</a>
       </div>
       <a class="close-reveal-modal">&#215;</a>
@@ -89,7 +88,6 @@
     <script>
         function displayModal(isWinner) {
             if (isWinner) {
-                document.getElementById('modalStatus').innerHTML = "Congratulations! You won!";
                 document.getElementById('modalMessage').innerHTML = "Nice one. You're one step closer to being a l33t h4x0r. :D";
                 $('#GameModal').foundation('reveal', 'open');
             } else {

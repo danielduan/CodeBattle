@@ -5,7 +5,7 @@ if (!gameNum) {
 }
 var f = new Firebase('https://codebattle.firebaseio.com/games/'+gameNum);
 var player1, codeMirror1, codeMirror2, firepad1, firepad2, language;
-var questions = []
+var questions = [];
 var obsever = false;
 var consoleFormat = {
     theme: 'console',
@@ -28,6 +28,15 @@ f.child('winner').on('value', function(data) {
         } else {
             displayModal('You have lost :(');
         }
+    }
+});
+f.child('powerups').on('child_added', function(data) {
+    var powerup = "shield";
+    var question = data.name();
+    if (data.val() == "player1") {
+        addPowerup(question, powerup, 0);
+    } else {
+        addPowerup(question, powerup, 1);
     }
 });
 firepadConsole1.on('ready', function() {
@@ -144,6 +153,7 @@ function setOriginalText(data, firepad) {
     firepad.setText(initial);
 };
 function submitCode() {
+    if (obsever) return;
     var player = "2";
     var code = codeMirror2.getDoc().getValue();
     if (player1) {
@@ -151,7 +161,7 @@ function submitCode() {
         code = codeMirror1.getDoc().getValue();
     }
     $.get(
-        "http://codebattle.aws.af.cm/run_tests",
+        "http://codebattle.ngrok.com/run_tests",
         { game: gameNum, player: player, code: code, questions: JSON.stringify(questions), lang: language },
         function(data){
             var allQuestionsPassed = true;
@@ -167,7 +177,15 @@ function submitCode() {
                     }
                 }
                 if (allTestsPassed) {
-                    // Give power up
+                    f.child('powerups').child(question).once('value', function(data) {
+                        if (!data.val()) {
+                            var playerName = "player2";
+                            if (player1) {
+                                playerName = "player1";
+                            }
+                            f.child('powerups').child(question).set(playerName);
+                        }
+                    });
                 } else {
                     allQuestionsPassed = false;
                 }
@@ -194,18 +212,18 @@ function getParam(name) {
     return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
 }
 
-function addPowerup(powerup, divID) {
+function addPowerup(question, powerup, divID) {
     var div = 'powerups' + divID;
     var ul = document.getElementById(div);
     var li = document.createElement("li");
-    var newListItem = "<img class='powerupitem' onclick='powerupHandler()' src='" + "img/" + powerup + ".png' type='" + powerup + "'>";
+    var newListItem = "<img class='powerupitem' type='" + powerup + "' user='" + divID + "' src='" + "img/" + powerup + ".png' id='" + question + "'>";
     li.innerHTML=newListItem;
     ul.insertBefore(li, ul.getElementsByTagName('li')[0]);
+    $("#"+question).click(function() {
+        powerupHandler(this.getAttribute('id'), this.getAttribute('user'), this.getAttribute('type'));
+    });
 }
 
-function powerupHandler() {
-
-}
 
 function getCodeMirror(player) {
     if (player=="1") {
@@ -233,4 +251,12 @@ function party_mode(player) {
         $(".cm-s-party .CodeMirror-code").unblink();
         thisCodeMirror.setOption('theme', previousTheme);
     }, 3000)
+}
+function powerupHandler(question, user, powerup) {
+    if (obsever) return;
+    if (user == 0 && player1 || user == 1 && !player1) {
+        //Make sure only the user who owns the powerup can execute it
+        console.log("EXECUTE");
+    }
+    console.log(question, powerup, user);
 }
