@@ -137,6 +137,9 @@ padding-right: 10px;
     color: rgba(0,0,0,0);
     text-shadow: 0 0 10px rgba(0,0,0,0.4);
 }
+.cm-s-party {
+    
+}
 .CodeMirror-gutters {
     height: 100% !important;
 }

@@ -42,7 +42,7 @@
         }
         var f = new Firebase('https://codebattle.firebaseio.com/games/game'+gameNum);
         var player1, codeMirror1, codeMirror2, firepad1, firepad2;
-        var obsever = false;
+        var observer = false;
         f.once('value', function(data) {
             var playerCount = data.child('playerCount').val();
             var observerCount = data.child('observerCount').val();
@@ -70,7 +70,7 @@
                 codeMirror1 = CodeMirror(document.getElementById('firepad1'), otherPlayerFormat);
                 codeMirror2 = CodeMirror(document.getElementById('firepad2'), currPlayerFormat);
             } else {
-                obsever = true;
+                observer = true;
                 f.child('observerCount').set(observerCount + 1);
                 codeMirror1 = CodeMirror(document.getElementById('firepad1'), otherPlayerFormat);
                 codeMirror2 = CodeMirror(document.getElementById('firepad2'), otherPlayerFormat);

@@ -4,9 +4,9 @@ if (!gameNum) {
     document.location.href = "index.html";
 }
 var f = new Firebase('https://codebattle.firebaseio.com/games/'+gameNum);
-var player1, codeMirror1, codeMirror2, firepad1, firepad2, language;
-var questions = []
-var obsever = false;
+var player1, codeMirror1, codeMirror2, firepad1, firepad2, language, playerCount, observerCount;
+var questions = [];
+var observer = false;
 var consoleFormat = {
     theme: 'console',
     readOnly: 'nocursor'
@@ -28,6 +28,15 @@ f.child('winner').on('value', function(data) {
         } else {
             displayModal('You have lost :(');
         }
+    }
+});
+f.child('powerups').on('child_added', function(data) {
+    var powerup = "shield";
+    var question = data.name();
+    if (data.val() == "player1") {
+        addPowerup(question, powerup, 0);
+    } else {
+        addPowerup(question, powerup, 1);
     }
 });
 firepadConsole1.on('ready', function() {
@@ -92,7 +101,7 @@ f.once('value', function(data) {
         document.getElementById('submit0').onclick = "";
         document.getElementById('status').innerHTML = "Player 2";
     } else {
-        obsever = true;
+        observer = true;
         f.child('observerCount').set(observerCount + 1);
         codeMirror1 = CodeMirror(document.getElementById('firepad1'), observerFormat);
         codeMirror2 = CodeMirror(document.getElementById('firepad2'), observerFormat);
@@ -101,7 +110,6 @@ f.once('value', function(data) {
         document.getElementById('submit1').onclick = "";
         document.getElementById('submit0').onclick = "";
         document.getElementById('status').innerHTML = "Observer";
-
     }
     firepad1 = Firepad.fromCodeMirror(f.child('player1').child('code'), codeMirror1);
     firepad2 = Firepad.fromCodeMirror(f.child('player2').child('code'), codeMirror2);
@@ -115,6 +123,30 @@ f.once('value', function(data) {
         if (firepad2.isHistoryEmpty()) {
             setOriginalText(problems, firepad2);
             codeMirror1.getDoc().setCursor(0, 0);
+        }
+    });
+    f.child('playerCount').on('value', function(data) {
+        playerCount = data.val();
+        if (observer) return;
+        console.log(observerCount, playerCount);
+        if (observerCount == 0 && playerCount == 1) {
+            f.onDisconnect().cancel();
+            f.onDisconnect().set(null);
+        } else {
+            f.child('playerCount').onDisconnect().cancel();
+            f.child('playerCount').onDisconnect().set(playerCount - 1);
+        }
+    });
+    f.child('observerCount').on('value', function(data) {
+        observerCount = data.val();
+        if (!observer) return;
+        console.log(observerCount, playerCount);
+        if (observerCount == 1 && playerCount == 0) {
+            f.onDisconnect().cancel();
+            f.onDisconnect().set(null);
+        } else {
+            f.child('observerCount').onDisconnect().cancel();
+            f.child('observerCount').onDisconnect().set(observerCount - 1);
         }
     });
 });
@@ -144,6 +176,7 @@ function setOriginalText(data, firepad) {
     firepad.setText(initial);
 };
 function submitCode() {
+    if (observer) return;
     var player = "2";
     var code = codeMirror2.getDoc().getValue();
     if (player1) {
@@ -151,7 +184,7 @@ function submitCode() {
         code = codeMirror1.getDoc().getValue();
     }
     $.get(
-        "http://codebattle.aws.af.cm/run_tests",
+        "http://codebattle.ngrok.com/run_tests",
         { game: gameNum, player: player, code: code, questions: JSON.stringify(questions), lang: language },
         function(data){
             var allQuestionsPassed = true;
@@ -167,7 +200,15 @@ function submitCode() {
                     }
                 }
                 if (allTestsPassed) {
-                    // Give power up
+                    f.child('powerups').child(question).once('value', function(data) {
+                        if (!data.val()) {
+                            var playerName = "player2";
+                            if (player1) {
+                                playerName = "player1";
+                            }
+                            f.child('powerups').child(question).set(playerName);
+                        }
+                    });
                 } else {
                     allQuestionsPassed = false;
                 }
@@ -194,13 +235,25 @@ function getParam(name) {
     return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
 }
 
-function addPowerup(powerup, divID) {
+function addPowerup(question, powerup, divID) {
     var div = 'powerups' + divID;
     var ul = document.getElementById(div);
     var li = document.createElement("li");
-    var newListItem = "<img class='powerupitem' onclick='powerupHandler()' src='" + "img/" + powerup + ".png' type='" + powerup + "'>";
+    var newListItem = "<img class='powerupitem' type='" + powerup + "' user='" + divID + "' src='" + "img/" + powerup + ".png' id='" + question + "'>";
     li.innerHTML=newListItem;
     ul.insertBefore(li, ul.getElementsByTagName('li')[0]);
+    $("#"+question).click(function() {
+        powerupHandler(this.getAttribute('id'), this.getAttribute('user'), this.getAttribute('type'));
+    });
+}
+
+
+function getCodeMirror(player) {
+    if (player=="1") {
+        return codeMirror1;
+    } else {
+        return codeMirror2;
+    }
 }
 
 function removeLine(divID) {
@@ -239,7 +292,31 @@ function removeLine(divID) {
     }
 }
 
+function unblur(player) {
+    var thisCodeMirror = getCodeMirror(player);
+    var previousTheme = thisCodeMirror.getOption('theme');
+    thisCodeMirror.setOption('theme', 'default pad');
+    setTimeout(function() {
+        thisCodeMirror.setOption('theme', previousTheme);
+    }, 3000)
+}
 
-function powerupHandler() {
-
+function party_mode(player) {
+    var thisCodeMirror = getCodeMirror(player);
+    var previousTheme = thisCodeMirror.getOption('theme');
+    thisCodeMirror.setOption('theme', 'party');
+    $(".cm-s-party .CodeMirror-code").blink();
+    setTimeout(function() {
+        $(".cm-s-party .CodeMirror-code").unblink();
+        thisCodeMirror.setOption('theme', previousTheme);
+    }, 3000)
+}
+function powerupHandler(question, user, powerup) {
+    if (observer) return;
+    $("#"+question).remove();
+    if (user == 0 && player1 || user == 1 && !player1) {
+        //Make sure only the user who owns the powerup can execute it
+        console.log("EXECUTE");
+    }
+    console.log(question, powerup, user);
 }
