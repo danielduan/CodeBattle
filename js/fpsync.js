@@ -44,16 +44,20 @@ f.once('value', function(data) {
         f.child('playerCount').set(playerCount + 1);
         codeMirror1 = CodeMirror(document.getElementById('firepad1'), currPlayerFormat);
         codeMirror2 = CodeMirror(document.getElementById('firepad2'), otherPlayerFormat);
+        document.getElementById('submit1').className += ' disabled';
     } else if (playerCount == 1) {
         player1 = false;
         f.child('playerCount').set(playerCount + 1);
         codeMirror1 = CodeMirror(document.getElementById('firepad1'), otherPlayerFormat);
         codeMirror2 = CodeMirror(document.getElementById('firepad2'), currPlayerFormat);
+        document.getElementById('submit0').className += ' disabled';
     } else {
         obsever = true;
         f.child('observerCount').set(observerCount + 1);
         codeMirror1 = CodeMirror(document.getElementById('firepad1'), otherPlayerFormat);
         codeMirror2 = CodeMirror(document.getElementById('firepad2'), otherPlayerFormat);
+        document.getElementById('submit1').className += ' disabled';
+        document.getElementById('submit1').className += ' disabled';
     }
     firepad1 = Firepad.fromCodeMirror(f.child('player1').child('code'), codeMirror1);
     firepad2 = Firepad.fromCodeMirror(f.child('player2').child('code'), codeMirror2);

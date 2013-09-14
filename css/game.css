@@ -61,11 +61,29 @@
 #PlayerDiv {
     height:600px;
 }
+
+#FirepadDiv {
+}
+
+.powerup li
+{
+display: inline;
+list-style-type: none;
+padding-right: 10px;
+}
+
 #PlayerOutput {
     padding-left: 0;
 }
 #OpponentOutput {
     padding-right: 0;
+}
+
+#OutputDiv .button {
+    background-color: #3e3d32;
+    border-style: none;
+    font-weight: 300;
+    margin-top: 25px;
 }
 
 /* firepad */
