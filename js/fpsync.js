@@ -438,7 +438,7 @@ function powerupHandler(question, user, powerup) {
         show_joke("User " + (user + 1) + " sent " + powerup);
         setTimeout(function() {
             $('#JokeModal').foundation('reveal', 'close');
-        }, 500);
+        }, 100);
     }
     //console.log(question, powerup, user);
 }
