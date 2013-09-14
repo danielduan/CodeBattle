@@ -43,7 +43,7 @@ f.child('powerups').on('child_added', function(data) {
     var difficulty = problems[question]['difficulty'];
 
     var choose = {};
-    choose['double'] = "unblur";
+    choose['double'] = "party";
     choose['square'] = "removeline";
     choose['prime'] = "party";
     choose['reverse'] = "unblur";
@@ -85,7 +85,7 @@ f.child('player2').child('userID').on('value', function(snapshot) {
 });
 f.child('insults').on('child_added', function(data) {
     console.log(data.val());
-    if (data.val().player1 == player1 || typeof player1 === 'undefined') {
+    if (data.val().player1 == player1 || observer) {
         show_joke(data.val().message);
     }
 });
