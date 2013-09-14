@@ -76,7 +76,14 @@ function submitCode() {
         player = "1";
         code = codeMirror1.getDoc().getValue();
     }
-    $.post("http://codebattle.ngrok.com/run_tests", { game: gameNum, player: player, code: code, question: question, lang: language } );
+    $.post(
+        "http://codebattle.ngrok.com/run_tests",
+        { game: gameNum, player: player, code: code, question: question, lang: language },
+        function(data){
+            console.log(data);
+        },
+        "json"
+    );
 }
 function getParam(name) {
     return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
