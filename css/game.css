@@ -31,7 +31,14 @@
     color: #000000;
 }
 
+#JokeModal {
+    background-color: #eeeeee;
+    color: #000000;
+}
 #modalMessage {
+    font-size: 30px;
+}
+#jokeContent {
     font-size: 30px;
 }
 
@@ -77,7 +84,7 @@
 }
 
 #PlayerDiv {
-    height:600px;
+    height:500px;
 }
 
 #FirepadDiv {
@@ -117,7 +124,8 @@ padding-right: 10px;
     padding-left: 20%;
     padding-right: 20%;
     font-weight: 300;
-    margin-top: 25px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 /* firepad */
@@ -157,7 +165,7 @@ padding-right: 10px;
     display:inline-block;
 }
 .firepadContainer .firepad {
-    height:650px;
+    height:500px;
 }
 /* unused */
 

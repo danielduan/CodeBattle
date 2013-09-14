@@ -83,6 +83,12 @@ f.child('player2').child('userID').on('value', function(snapshot) {
         $("#player2Image").attr("src", "https://graph.facebook.com/"+snapshot.val()+"/picture");
     }
 });
+f.child('insults').on('child_added', function(data) {
+    console.log(data.val());
+    if (data.val().player1 == player1) {
+        show_joke(data.val().message);
+    }
+});
 firepadConsole1.on('ready', function() {
     if (firepadConsole1.isHistoryEmpty()) {
         firepadConsole1.setText('');
@@ -140,6 +146,7 @@ f.once('value', function(data) {
         codeMirror1 = CodeMirror(document.getElementById('firepad1'), currPlayerFormat);
         codeMirror2 = CodeMirror(document.getElementById('firepad2'), otherPlayerFormat);
         document.getElementById('submit1').className += ' disabled';
+        document.getElementById('insult1').className += ' disabled';
         document.getElementById('submit1').onclick = "";
         document.getElementById('status').innerHTML = "Player 1";
     } else if (playerCount == 1) {
@@ -149,6 +156,7 @@ f.once('value', function(data) {
         codeMirror1 = CodeMirror(document.getElementById('firepad1'), otherPlayerFormat);
         codeMirror2 = CodeMirror(document.getElementById('firepad2'), currPlayerFormat);
         document.getElementById('submit0').className += ' disabled';
+        document.getElementById('insult0').className += ' disabled';
         document.getElementById('submit0').onclick = "";
         document.getElementById('status').innerHTML = "Player 2";
     } else {
@@ -157,7 +165,9 @@ f.once('value', function(data) {
         codeMirror1 = CodeMirror(document.getElementById('firepad1'), observerFormat);
         codeMirror2 = CodeMirror(document.getElementById('firepad2'), observerFormat);
         document.getElementById('submit1').className += ' disabled';
+        document.getElementById('insult1').className += ' disabled';
         document.getElementById('submit0').className += ' disabled';
+        document.getElementById('insult0').className += ' disabled';
         document.getElementById('submit1').onclick = "";
         document.getElementById('submit0').onclick = "";
         document.getElementById('status').innerHTML = "Observer";
@@ -282,6 +292,15 @@ function submitCode() {
         "jsonp"
     );
 }
+
+function send_insult() {
+    var message = jokes[Math.floor((Math.random()*jokes.length))];
+    f.child('insults').push({
+        player1: !player1,
+        message: message
+    });
+    alert('Sent "'+ message +'"')
+}
 function clearPlayer(string) {
     if (player1) {
       console1.getDoc().setValue('');
@@ -385,6 +404,12 @@ function party_mode(player) {
         sound.pause();
     }, 15000)
 }
+
+function show_joke(message) {
+    document.getElementById('jokeContent').innerHTML = message
+    $('#JokeModal').foundation('reveal', 'open');
+}
+
 function powerupHandler(question, user, powerup) {
     $("#"+question).remove();
     
