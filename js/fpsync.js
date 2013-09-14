@@ -94,11 +94,15 @@ function submitCode() {
         code = codeMirror1.getDoc().getValue();
     }
     $.get(
-        "http://codebattle.ngrok.com/run_tests",
+        "http://codebattle.aws.af.cm/run_tests",
         { game: gameNum, player: player, code: code, question: question, lang: language },
         function(data){
             console.log(data);
-
+            if (player1) {
+                console1.getDoc().setValue(console1.getDoc().getValue() + JSON.stringify(data));
+            } else {
+                console2.getDoc().setValue(console2.getDoc().getValue() + JSON.stringify(data));
+            }
         },
         "jsonp"
     );
