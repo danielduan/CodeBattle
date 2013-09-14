@@ -91,4 +91,17 @@ function submitCode() {
 }
 function getParam(name) {
     return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
+}   
+
+function addPowerup(powerup, divID) {
+    var div = 'powerups' + divID;
+    var ul = document.getElementById(div);
+    var li = document.createElement("li");
+    var newListItem = "<img class='powerupitem' onclick='powerupHandler()' src='" + "img/" + powerup + ".png' type='" + powerup + "'>";
+    li.innerHTML=newListItem;
+    ul.insertBefore(li, ul.getElementsByTagName('li')[0]);
+}
+
+function powerupHandler() {
+
 }

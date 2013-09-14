@@ -65,6 +65,20 @@
 #FirepadDiv {
 }
 
+#PowerupDiv {
+    height:100px;
+    overflow: hidden;
+}
+
+.powerupitem {
+    height: 90px;
+    width: 90px;
+    border-width: 5px;
+    margin: 5px;
+    border-style: outset;
+    border-color: #eeeeee;
+}
+
 .powerup li
 {
 display: inline;
