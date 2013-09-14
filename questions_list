@@ -1,0 +1,154 @@
+Questions
+
+===========================================
+Double
+======
+Given an integer x, double it.
+
+INPUT
+1
+
+OUTPUT
+2
+
+python:
+def double(x):
+  return -1
+
+ruby
+def double(x)
+  return -1
+end
+
+php
+function double($x)
+{
+  return -1;
+}
+
+===========================================
+Square
+======
+Given an integer x, square it.
+
+INPUT
+-6
+
+OUTPUT
+36
+
+python:
+def square(x):
+  return -1
+
+ruby
+def square(x)
+  return -1
+end
+
+php
+function square($x)
+{
+  return -1;
+}
+
+===========================================
+Prime
+======
+Given an integer x, determine if it is prime.
+
+INPUT
+2
+
+OUTPUT
+True
+
+python:
+def prime(x):
+  return False
+
+ruby
+def square(x)
+  return False
+end
+
+php
+function square($x)
+{
+  return FALSE;
+}
+===========================================
+Reverse
+======
+Given an string s, reverse it
+
+INPUT
+"hctibazzip"
+
+OUTPUT
+"pizzabitch"
+
+python:
+def reverse(x):
+  return ''
+
+ruby
+def reverse(x)
+  return ''
+end
+
+php
+function reverse($x)
+{
+  return '';
+}
+===========================================
+Sumlist
+=======
+Given an string of space separated integers, add them.
+
+INPUT
+"1 2 3 4"
+
+OUTPUT
+10
+
+python:
+def sumlist(x):
+  return -1
+
+ruby
+def sumlist(x)
+  return -1
+end
+
+php
+function sumlist($x)
+{
+  return -1;
+}
+===========================================
+Anagrams
+=======
+Given an string of space separated strings, return a list of the counts of each unique group of anagrams found within the list.
+
+INPUT
+"bat tab tub lol but"
+
+OUTPUT
+"2 2 1"
+
+python:
+def anagrams(x):
+  return ""
+
+ruby
+def anagrams(x)
+  return ""
+end
+
+php
+function anagrams($x)
+{
+  return "";
+}
