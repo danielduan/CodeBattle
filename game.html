@@ -5,7 +5,7 @@
 <head>
 		<meta charset="utf-8">
   		<meta name="viewport" content="width=device-width">
-  	<title>CodeBattle </title>
+  	<title>CodeBattle</title>
     <meta charset="utf-8" />
     <script src="https://cdn.firebase.com/v0/firebase.js"></script>
     <script src="codemirror/lib/codemirror.js"></script>
@@ -16,21 +16,24 @@
     <link rel="stylesheet" href="codemirror/lib/codemirror.css" />
     <script src="firepad.js"></script>
   	<link rel="stylesheet" href="css/foundation.css" />
-  	<link rel="stylesheet" href="css/game.css" />
     <link rel="stylesheet" href="firepad.css" />
+  	<link rel="stylesheet" href="css/game.css" />
+    <script src="js/fpsync.js"></script>
 
   	<script src="js/vendor/custom.modernizr.js"></script>
 
 </head>
 <body>
     <div id="Title" class="code">
-      <p>CodeBattle</p>
+      <p><span class="yellow">Code</span>Battle</p>
     </div>
   <div class="row">
   		<div id="PlayerDiv" class="large-6 small-12 columns">
+        <div id="topbar"></div>
         <div id="firepad1" class="firepadContainer"></div>
       </div>
       <div id="OpponentDiv" class="large-6 small-12 columns">
+        <div id="topbar"></div>
         <div id="firepad2" class="firepadContainer"></div>
       </div>
   </div>
