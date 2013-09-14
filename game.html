@@ -14,12 +14,12 @@
     <script src="codemirror/mode/php/php.js"></script>
     <script src="codemirror/mode/python/python.js"></script>
     <script src="codemirror/mode/ruby/ruby.js"></script>
-    <link rel="stylesheet" href="codemirror/lib/codemirror.css" />
     <script src="js/firepad.js"></script>
+    <script src="js/vendor/custom.modernizr.js"></script>
+    <link rel="stylesheet" href="codemirror/lib/codemirror.css" />
     <link rel="stylesheet" href="css/foundation.css" />
     <link rel="stylesheet" href="css/firepad.css" />
     <link rel="stylesheet" href="css/game.css" />
-    <script src="js/vendor/custom.modernizr.js"></script>
 </head>
 <body>
     <div id="Title" class="large-12 small-12 text-left columns code">
@@ -32,15 +32,23 @@
         </div>
     </div>
     <div id="PowerupDiv" class="large-12 small-12 columns">
-      <div id="powerupdiv0" class="large-6 small-12 columns">
+      <div id="powerupdiv0" class="large-5 small-12 columns">
         <ul id="powerups0" class="powerup">
-            <li style="height:100px;">Powerups:</li>
+            <li style="height:100px; width:1px"></li>
         </ul>
       </div>
-      <div id="powerupdiv1" class="large-6 small-12 columns">
+      <div id="player1Data" class="large-1 small-12 columns" style="height: 95px; display:hidden;">
+          <img id="player1Image" src="" style="width:75px;position: absolute;right: 15px;top: 0px;">
+          <span id="player1Name" style="position: absolute;right: 15px;bottom: 0px;"></span>
+      </div>
+      <div id="powerupdiv1" class="large-5 small-12 columns">
         <ul id="powerups1" class="powerup">
-            <li style="height:100px;">Powerups:</li>
+            <li style="height:100px; width:1px"></li>
         </ul>
+      </div>
+      <div id="player2Data" class="large-1 small-12 columns" style="height: 95px; display:hidden;">
+          <img id="player2Image" src="" style="width:75px;position: absolute;right: 0px;top: 0px;">
+          <span id="player2Name" style="position: absolute;right: 0px;bottom: 0px;"></span>
       </div>
     </div>
     <div id="FirepadDiv">
@@ -59,12 +67,15 @@
         </div>
         <div id="PlayerSubmit0" class="large-1 small-1 text-center columns">
             <div id="submit0" href="#" onclick="submitCode()" class="button"><img src="img/submit.png"></div>
+            <div id="insult0" href="#" onclick="send_insult()" class="button"><img src="img/finger.png"></div>
+
         </div>
         <div id="OpponentOutput" class="large-5 small-11 columns">
             <div id="console2" class="firepadConsole"></div>
         </div>
         <div id="PlayerSubmit1" class="large-1 small-1 text-center columns">
             <div id="submit1" href="#" onclick="submitCode()" class="button"><img src="img/submit.png"></div>
+            <div id="insult1" href="#" onclick="send_insult()" class="button"><img src="img/finger.png"></div>
         </div>
     </div>
 
@@ -76,7 +87,11 @@
       </div>
       <a class="close-reveal-modal">&#215;</a>
     </div>
-
+    <div id="JokeModal" class="code reveal-modal text-center">
+      <p><span id="jokeContent"></span></p>
+   
+      <a class="close-reveal-modal">&#215;</a>
+    </div>
 
 
     <script type="text/javascript" charset="utf-8" src="js/vendor/jquery.js"></script>
@@ -87,19 +102,22 @@
     <script src="js/foundation.min.js"></script>
 
     <script>
+        var jokes = new Array();
+        jokes.push("So what are you, a web developer?");
+        jokes.push("Your code is so bad your child processes disowned you.");
+        jokes.push("Are you sure your not an accountant working on a second career?");
+        jokes.push("Your code is so bloated, it requires its own zip code.");
+        jokes.push("I could have done that in three lines.");
+        jokes.push("What does your code have in common with C? No class.");
+        jokes.push("Don't worry about it, I'll get someone technical to do it.");
+        jokes.push("Your code is as secure as me walking around naked carying a bag of money!");
+        jokes.push("Your codes so bad that your run time only walks.");
+ 
         function displayModal(isWinner) {
             if (isWinner) {
                 document.getElementById('modalMessage').innerHTML = "Nice one. You're one step closer to being a l33t h4x0r. :D";
                 $('#GameModal').foundation('reveal', 'open');
             } else {
-                var jokes = new Array();
-                jokes.push("So what are you, a web developer?");
-                jokes.push("Your code is so bad your child processes disowned you.");
-                jokes.push("Are you sure your not an accountant working on a second career?");
-                jokes.push("A valiant effort, though. Do you work for Microsoft?");
-                jokes.push("Your code is so bloated, it requires its own zip code.");
-                jokes.push("I could have done that in three lines.");
-                jokes.push("What does your code have in common with C? No class.");
                 document.getElementById('modalStatus').innerHTML = "You suck!";
                 document.getElementById('modalMessage').innerHTML = jokes[Math.floor((Math.random()*jokes.length))];
                 $('#GameModal').foundation('reveal', 'open');
