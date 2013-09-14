@@ -42,22 +42,32 @@
 /* firepad */
 
 .cm-s-pad {
-            background-color:#222;
-            color:#FFF;
-        }
-        .firepad {
-            height:600px;
-        }
-        .firepadContainer {
-            width:40%;
-            display:inline-block;
-        }
-        #firepad1 {
-            margin-left:5%;
-        }
-        #firepad2 {
-            margin-left:10%;
-        }
+    background-color:#222;
+    color:#FFF;
+}
+.cm-s-console {
+    background-color:#333;
+    color:#EEE;
+}
+.firepadConsole {
+    width:100%;
+}
+.firepadConsole .CodeMirror-gutters {
+    display:none;
+}
+.firepad {
+    height:600px;
+}
+.firepadContainer {
+    width:100%;
+    display:inline-block;
+}
+#firepad1 {
+    margin-left:5%;
+}
+#firepad2 {
+    margin-left:10%;
+}
 
 /* unused */
 
