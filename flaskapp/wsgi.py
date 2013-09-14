@@ -28,10 +28,37 @@ def get_test_cases(question):
     '17': 'True'
   }
 
+  reverse = {
+    "'shahid'"  : 'dihahs',
+    "'alex'"    : 'xela',
+    "'daniel'"  : 'leinad' ,
+    "'racecar'" : 'racecar',
+    "''"        : '',
+    "'a'"       : 'a'
+  }
+
+  sumlist = {
+    "'1 2 3 4 5'"   : '15',
+    "'1 3 5 7 100'" : '116',
+    "'1'"           : '1',
+    "''"            : '0'
+  }
+
+  anagrams = {
+    "'arc car'"                     : "'2'",
+    "'arc car bob'"                 : "'2 1'",
+    "'slit get tag list'"           : "'2 1 1'",
+    "'bat tab tub lol but'"         : "'2 2 1'",
+    "'pace epac four tink knit row" : "'2 2 1 1'"
+  }
+
   question_dict = {
     'double'  : double,
     'square'  : square,
-    'prime'   : prime
+    'prime'   : prime,
+    'reverse' : reverse,
+    'sumlist' : sumlist,
+    'anagrams': anagrams
   }
   return question_dict[question]
 
@@ -48,8 +75,8 @@ def run_tests():
   response_dict = {}
   for i, result in enumerate(results):
     if str(result[0]) == 'False' and 'error' in str(result[1]).lower():
-      # response_dict[i] = str(result[1])
-      response_dict[i] = 'ERROR'
+      response_dict[i] = str(result[1])
+      # response_dict[i] = 'ERROR'
     elif str(result[0]) == 'True':
       response_dict[i] = 'PASS'
     else:
