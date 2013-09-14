@@ -31,7 +31,7 @@ f.child('winner').on('value', function(data) {
     }
 });
 f.child('powerups').on('child_added', function(data) {
-    var powerup = "shield";
+    var powerup = "party";
     var question = data.name();
     if (data.val() == "player1") {
         addPowerup(question, powerup, 0);
@@ -312,11 +312,15 @@ function party_mode(player) {
     }, 3000)
 }
 function powerupHandler(question, user, powerup) {
-    if (observer) return;
     $("#"+question).remove();
-    if (user == 0 && player1 || user == 1 && !player1) {
-        //Make sure only the user who owns the powerup can execute it
-        console.log("EXECUTE");
+
+    if ((user == 0 && player1) || (user == 1 && !player1)) {
+        if (powerup == 'party') {
+            party_mode(user);
+        } else if (powerup == 'party') {
+            removeLine(user);
+        }
+
     }
     console.log(question, powerup, user);
 }
