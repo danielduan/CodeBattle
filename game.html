@@ -30,13 +30,15 @@
           <span id="status" class="purple"></span>
         </div>
     </div>
-    <div id="PowerupDiv">
+    <div id="PowerupDiv" class="large-12 small-12 columns">
       <div id="powerupdiv0" class="large-6 small-12 columns">
         <ul id="powerups0" class="powerup">
+            <li style="height:100px;">Powerups:</li>
         </ul>
       </div>
       <div id="powerupdiv1" class="large-6 small-12 columns">
         <ul id="powerups1" class="powerup">
+            <li style="height:100px;">Powerups:</li>
         </ul>
       </div>
     </div>
@@ -71,10 +73,29 @@
           <p>Im a cool paragraph that lives inside of an even cooler modal. Wins</p>
           <a class="close-reveal-modal">&#215;</a>
         </div>
+
+        <div id="dialog-confirm" title="Empty the recycle bin?">
+          <p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>These items will be permanently deleted and cannot be recovered. Are you sure?</p>
+        </div>
+
     <script>
         function displayModal(message) {
             document.getElementById('modalStatus').innerHTML = message;
-            $('#GameModal').foundation('reveal', 'open');
+            //$('#GameModal').foundation('reveal', 'open');
+            $( "#dialog-confirm" ).dialog({
+              resizable: false,
+              height:140,
+              modal: true,
+              buttons: {
+                "Delete all items": function() {
+                  $( this ).dialog( "close" );
+                },
+                Cancel: function() {
+                  $( this ).dialog( "close" );
+                }
+              }
+            });
+            
         }
     </script>
 

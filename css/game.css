@@ -2,6 +2,16 @@
     font-family: "Courier New", Courier, monospace;
 }
 
+.blur {
+    color: rgba(0, 0, 0, 0);
+    text-shadow: 0 0 4px #333333;
+}
+
+#basic-modal-content {display:none;}
+
+/* Overlay */
+#simplemodal-overlay {background-color:#000;}
+
 #topbar {
     font-family: 'Lucida Grande', 'Arial', sans-serif;
     text-shadow: 0px 1px #f1f1f1;
