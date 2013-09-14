@@ -48,6 +48,16 @@
 			event.preventDefault();
 			document.getElementById('GameCreateButton').style.display = 'none';
 			document.getElementById('JoinCode').style.visibility = 'visible';
+			document.getElementById('GameJoinButton').addEventListener('click', function (event) {
+				var id = document.getElementById('JoinCode').value;
+				document.location.href = "game.html?game=" + id;
+			});
+		});
+
+		document.getElementById('GameCreateButton').addEventListener('click', function (event) {
+			event.preventDefault();
+			var id = Math.floor((Math.random()*1000000000));
+			document.location.href = "game.html?game=" + id;
 		});
 	</script>
 

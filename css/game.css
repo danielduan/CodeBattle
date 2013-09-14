@@ -26,11 +26,15 @@
     top: 5px;
 }
 
+#gameIDDiv {
+    font-size: 25px;
+}
+
 #Title {
     font-size: 60px;
+    padding:15px;
     color: #8f908a;
     background-color: #3e3d32;
-    text-align: center;
 }
 
 .top-bar {
@@ -65,6 +69,20 @@
 #FirepadDiv {
 }
 
+#PowerupDiv {
+    height:100px;
+    overflow: hidden;
+}
+
+.powerupitem {
+    height: 90px;
+    width: 90px;
+    border-width: 5px;
+    margin: 5px;
+    border-style: outset;
+    border-color: #eeeeee;
+}
+
 .powerup li
 {
 display: inline;
@@ -82,14 +100,15 @@ padding-right: 10px;
 #OutputDiv .button {
     background-color: #3e3d32;
     border-style: none;
+    padding-left: 20%;
+    padding-right: 20%;
     font-weight: 300;
     margin-top: 25px;
 }
 
 /* firepad */
 .cm-s-pad {
-    //background-color:#222;
-    //color:#FFF;
+    background-color:#EEE;
 }
 .cm-s-console {
     background-color:#333;

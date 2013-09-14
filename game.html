@@ -21,20 +21,23 @@
     <script src="js/vendor/custom.modernizr.js"></script>
 </head>
 <body>
-    <div id="Title" class="code">
-        <span class="yellow">Code</span>Battle
+    <div id="Title" class="large-12 small-12 text-left columns code">
+        <div class="large-6 small-12 text-left columns">
+          <a href="index.html"><span class="yellow">Code</span><span class="white">Battle</span></a>
+        </div>
+        <div id="gameIDDiv" class="large-6 small-12 text-right columns">
+          <span class="blue">Game ID:<span id="gameID" class="white"></span></span><br>
+          <span id="status" class="purple"></span>
+        </div>
     </div>
-    <div id="">
-      <div id="powerups0" class="large-6 small-12 columns">
-        <ul id="navlist">
-          <li id="active"><a href="#" id="current">Item one</a></li>
-          <li><a href="#">Item two</a></li>
-          <li><a href="#">Item three</a></li>
-          <li><a href="#">Item four</a></li>
-          <li><a href="#">Item five</a></li>
+    <div id="PowerupDiv">
+      <div id="powerupdiv0" class="large-6 small-12 columns">
+        <ul id="powerups0" class="powerup">
         </ul>
       </div>
-      <div id="powerups1" class="large-6 small-12 columns">
+      <div id="powerupdiv1" class="large-6 small-12 columns">
+        <ul id="powerups1" class="powerup">
+        </ul>
       </div>
     </div>
     <div id="FirepadDiv">
@@ -47,20 +50,20 @@
             <div id="firepad2" class="firepadContainer"></div>
         </div>
     </div>
-        <div id="OutputDiv" class="large-12 small-12 columns">
-            <div id="PlayerOutput" class="large-5 small-11 columns">  
-                <div id="console1" class="firepadConsole"></div>
-            </div>
-            <div id="PlayerSubmit" class="large-1 small-1 columns">
-                <a id="submit0" href="#" class="button code">Submit()</a>
-            </div>
-            <div id="OpponentOutput" class="large-5 small-11 columns">
-                <div id="console2" class="firepadConsole"></div>
-            </div>
-            <div id="PlayerSubmit" class="large-1 small-1 columns">
-                <a id="submit1" href="#" class="button code">Submit()</a>
-            </div>
+    <div id="OutputDiv" class="large-12 small-12 columns">
+        <div id="PlayerOutput" class="large-5 small-11 columns">  
+            <div id="console1" class="firepadConsole"></div>
         </div>
+        <div id="PlayerSubmit0" class="large-1 small-1 text-center columns">
+            <div id="submit0" href="#" onclick="submitCode()" class="button"><img src="img/submit.png"></div>
+        </div>
+        <div id="OpponentOutput" class="large-5 small-11 columns">
+            <div id="console2" class="firepadConsole"></div>
+        </div>
+        <div id="PlayerSubmit1" class="large-1 small-1 text-center columns">
+            <div id="submit1" href="#" onclick="submitCode()" class="button"><img src="img/submit.png"></div>
+        </div>
+    </div>
 
     <script>
         document.write('<script src=' +
