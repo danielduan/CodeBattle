@@ -6,6 +6,10 @@
     <script src="https://cdn.firebase.com/v0/firebase.js"></script>
     <script src="codemirror/lib/codemirror.js"></script>
     <script src="codemirror/mode/javascript/javascript.js"></script>
+    <script src="codemirror/mode/python/python.js"></script>
+    <script src="codemirror/mode/clike/clike.js"></script>
+    <script src="codemirror/mode/ruby/ruby.js"></script>
+    <script src="codemirror/mode/php/php.js"></script>
     <link rel="stylesheet" href="codemirror/lib/codemirror.css" />
     <script src="firepad.js"></script>
     <link rel="stylesheet" href="firepad.css" />
@@ -20,33 +24,34 @@
         }
         var f = new Firebase('https://codebattle.firebaseio.com/games/game'+gameNum);
         var player1, codeMirror1, codeMirror2, firepad1, firepad2;
-        var currPlayerFormat = {
-            lineNumbers: true,
-            mode: 'javascript',
-            autofocus: true
-        };
-        var otherPlayerFormat = {
-            lineNumbers: true,
-            mode: 'javascript',
-            readOnly: "nocursor"
-        };
         var obsever = false;
-        f.child('playerCount').once('value', function(data) {
-            if (!data.val() || data.val() == 0) {
+        f.once('value', function(data) {
+            var playerCount = data.child('playerCount').val();
+            var observerCount = data.child('observerCount').val();
+            var language = data.child('language').val();
+            var currPlayerFormat = {
+                lineNumbers: true,
+                mode: language,
+                autofocus: true
+            };
+            var otherPlayerFormat = {
+                lineNumbers: true,
+                mode: language,
+                readOnly: "nocursor"
+            };
+            if (!playerCount || playerCount == 0) {
                 player1 = true;
-                f.child('playerCount').set(data.val()+1);
+                f.child('playerCount').set(playerCount + 1);
                 codeMirror1 = CodeMirror(document.getElementById('firepad1'), currPlayerFormat);
                 codeMirror2 = CodeMirror(document.getElementById('firepad2'), otherPlayerFormat);
-            } else if (data.val() == 1) {
+            } else if (playerCount == 1) {
                 player1 = false;
-                f.child('playerCount').set(data.val()+1);
+                f.child('playerCount').set(playerCount + 1);
                 codeMirror1 = CodeMirror(document.getElementById('firepad1'), otherPlayerFormat);
                 codeMirror2 = CodeMirror(document.getElementById('firepad2'), currPlayerFormat);
             } else {
                 obsever = true;
-                f.child('observerCount').transaction(function(current_value) {
-                    return current_value + 1;
-                });
+                f.child('observerCount').set(observerCount + 1);
                 codeMirror1 = CodeMirror(document.getElementById('firepad1'), otherPlayerFormat);
                 codeMirror2 = CodeMirror(document.getElementById('firepad2'), otherPlayerFormat);
             }
