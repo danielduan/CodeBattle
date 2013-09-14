@@ -68,6 +68,7 @@ def run_tests():
   callback = str(request.args['callback'])
   player = str(request.args['player'])
   code = str(request.args['code'])
+  print code
   questions = json.loads(str(request.args['questions']))
   # print "QS", questions
   # print 'printing'
@@ -139,8 +140,10 @@ def get_print_statement(code, lang, question, test_case):
         int main() { \
           printf('%s\n\n'," + function_call + "); \
         }"
-  elif lang == 'Python' or lang == 'Ruby':
+  elif lang == 'Python':
     print_statement += "print " + 'str('+function_call+')' + "+'!@#'\n"
+  elif lang == 'Ruby':
+    print_statement += "print " + function_call+'.to_s' + "+'!@#'\n"
   elif lang == 'PHP':
     print_statement += "printf('%s!@#\n'," + function_call + ");"
   return print_statement
