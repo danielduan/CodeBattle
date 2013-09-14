@@ -4,7 +4,8 @@ if (!gameNum) {
     document.location.href = "index.html";
 }
 var f = new Firebase('https://codebattle.firebaseio.com/games/'+gameNum);
-var player1, codeMirror1, codeMirror2, firepad1, firepad2, language, question;
+var player1, codeMirror1, codeMirror2, firepad1, firepad2, language;
+var questions = []
 var obsever = false;
 var consoleFormat = {
     theme: 'console',
@@ -14,6 +15,12 @@ console1 = CodeMirror(document.getElementById('console1'), consoleFormat);
 console2 = CodeMirror(document.getElementById('console2'), consoleFormat);
 firepadConsole1 = Firepad.fromCodeMirror(f.child('player1').child('console'), console1);
 firepadConsole2 = Firepad.fromCodeMirror(f.child('player2').child('console'), console2);
+f.child('player1').child('console').on('value', function() {
+    console1.getDoc().setCursor(9007199254740992, 0);
+});
+f.child('player2').child('console').on('value', function() {
+    console2.getDoc().setCursor(9007199254740992, 0);
+});
 firepadConsole1.on('ready', function() {
     if (firepadConsole1.isHistoryEmpty()) {
         firepadConsole1.setText('');
@@ -32,7 +39,9 @@ f.once('value', function(data) {
     if (languageName == "python") {
         languageName = {name: "python"};
     }
-    question = data.child('question').val();
+    data.child('questions').forEach(function(child) {
+        questions.push(child.val());
+    });
     var currPlayerFormat = {
         lineNumbers: true,
         mode: languageName,
@@ -99,17 +108,37 @@ function submitCode() {
     }
     $.get(
         "http://codebattle.aws.af.cm/run_tests",
-        { game: gameNum, player: player, code: code, question: question, lang: language },
+        { game: gameNum, player: player, code: code, question: questions[0], lang: language },
         function(data){
-            console.log(data);
-            if (player1) {
-                console1.getDoc().setValue(console1.getDoc().getValue() + JSON.stringify(data));
-            } else {
-                console2.getDoc().setValue(console2.getDoc().getValue() + JSON.stringify(data));
+            var allQuestionsPassed = true;
+            for (var i = 0; i < questions.length; i++) {
+                append("Question: " + questions[i]);
+                var allTestsPassed = true;
+                for (var key in data/*[i]*/) {
+                    append("Test Case " + key + ": " + data/*[i]*/[key]);
+                    if (data/*[i]*/[key] != "PASS") {
+                        allTestsPassed = false;
+                    }
+                }
+                if (allTestsPassed) {
+                    // Give power up
+                } else {
+                    allQuestionsPassed = false;
+                }
+            }
+            if (allQuestionsPassed) {
+                // Winner!
             }
         },
         "jsonp"
     );
+}
+function append(string) {
+    if (player1) {
+        console1.getDoc().setValue(console1.getDoc().getValue() + string + "\n");
+    } else {
+        console2.getDoc().setValue(console2.getDoc().getValue() + string + "\n");
+    }
 }
 function getParam(name) {
     return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
