@@ -49,7 +49,7 @@ def get_test_cases(question):
     "'arc car bob'"                 : "'2 1'",
     "'slit get tag list'"           : "'2 1 1'",
     "'bat tab tub lol but'"         : "'2 2 1'",
-    "'pace epac four tink knit row" : "'2 2 1 1'"
+    "'pace epac four tink knit row'" : "'2 2 1 1'"
   }
 
   question_dict = {
@@ -140,7 +140,7 @@ def get_print_statement(code, lang, question, test_case):
           printf('%s\n\n'," + function_call + "); \
         }"
   elif lang == 'Python' or lang == 'Ruby':
-    print_statement += "print " + function_call + "+'!@#'\n"
+    print_statement += "print " + 'str('+function_call+')' + "+'!@#'\n"
   elif lang == 'PHP':
     print_statement += "printf('%s!@#\n'," + function_call + ");"
   return print_statement
