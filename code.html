@@ -1,0 +1,96 @@
+<!doctype html>
+<!-- See http://www.firepad.io/docs/ for detailed embedding docs. -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <script src="https://cdn.firebase.com/v0/firebase.js"></script>
+    <script src="codemirror/lib/codemirror.js"></script>
+    <script src="codemirror/mode/clike/clike.js"></script>
+    <script src="codemirror/mode/php/php.js"></script>
+    <script src="codemirror/mode/python/python.js"></script>
+    <script src="codemirror/mode/ruby/ruby.js"></script>
+    <link rel="stylesheet" href="codemirror/lib/codemirror.css" />
+    <script src="firepad.js"></script>
+    <style>
+        .cm-s-pad {
+            background-color:#222;
+            color:#FFF;
+        }
+        .firepad {
+            height:600px;
+        }
+        .firepadContainer {
+            width:40%;
+            display:inline-block;
+        }
+        #firepad1 {
+            margin-left:5%;
+        }
+        #firepad2 {
+            margin-left:10%;
+        }
+    </style>
+    <link rel="stylesheet" href="firepad.css" />
+</head>
+<body style="background-color:black;">
+    <div id="firepad1" class="firepadContainer"></div>
+    <div id="firepad2" class="firepadContainer"></div>
+    <script>
+        var gameNum = getParam('game');
+        if (!gameNum) {
+            document.location.href = "index.html";
+        }
+        var f = new Firebase('https://codebattle.firebaseio.com/games/game'+gameNum);
+        var player1, codeMirror1, codeMirror2, firepad1, firepad2;
+        var obsever = false;
+        f.once('value', function(data) {
+            var playerCount = data.child('playerCount').val();
+            var observerCount = data.child('observerCount').val();
+            var language = data.child('language').val();
+            var currPlayerFormat = {
+                lineNumbers: true,
+                mode: language,
+                theme: 'pad',
+                autofocus: true
+            };
+            var otherPlayerFormat = {
+                lineNumbers: true,
+                mode: language,
+                theme: 'pad',
+                readOnly: 'nocursor'
+            };
+            if (!playerCount || playerCount == 0) {
+                player1 = true;
+                f.child('playerCount').set(playerCount + 1);
+                codeMirror1 = CodeMirror(document.getElementById('firepad1'), currPlayerFormat);
+                codeMirror2 = CodeMirror(document.getElementById('firepad2'), otherPlayerFormat);
+            } else if (playerCount == 1) {
+                player1 = false;
+                f.child('playerCount').set(playerCount + 1);
+                codeMirror1 = CodeMirror(document.getElementById('firepad1'), otherPlayerFormat);
+                codeMirror2 = CodeMirror(document.getElementById('firepad2'), currPlayerFormat);
+            } else {
+                obsever = true;
+                f.child('observerCount').set(observerCount + 1);
+                codeMirror1 = CodeMirror(document.getElementById('firepad1'), otherPlayerFormat);
+                codeMirror2 = CodeMirror(document.getElementById('firepad2'), otherPlayerFormat);
+            }
+            firepad1 = Firepad.fromCodeMirror(f.child('player1').child('code'), codeMirror1);
+            firepad2 = Firepad.fromCodeMirror(f.child('player2').child('code'), codeMirror2);
+            firepad1.on('ready', function() {
+                if (firepad1.isHistoryEmpty()) {
+                    firepad1.setText('Player 1');
+                }
+            });
+            firepad2.on('ready', function() {
+                if (firepad2.isHistoryEmpty()) {
+                    firepad2.setText('Player 2');
+                }
+            });
+        });
+        function getParam(name) {
+            return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
+        }
+    </script>
+</body>
+</html>
