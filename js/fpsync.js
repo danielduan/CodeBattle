@@ -21,6 +21,15 @@ f.child('player1').child('console').on('value', function() {
 f.child('player2').child('console').on('value', function() {
     console2.getDoc().setCursor(9007199254740992, 0);
 });
+f.child('winner').on('value', function(data) {
+    if (data.val()) {
+        if (player1 && data.val() == 'player1' || !player1 && data.val() != 'player1') {
+            displayModal('You have won :D');
+        } else {
+            displayModal('You have lost :(');
+        }
+    }
+});
 firepadConsole1.on('ready', function() {
     if (firepadConsole1.isHistoryEmpty()) {
         firepadConsole1.setText('');
@@ -166,7 +175,11 @@ function submitCode() {
                 }
             }
             if (allQuestionsPassed) {
-                // Winner!
+                if (player1) {
+                    f.child('winner').set('player1');
+                } else {
+                    f.child('winner').set('player2');
+                }
             }
         },
         "jsonp"
