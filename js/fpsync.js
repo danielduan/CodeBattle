@@ -3,7 +3,15 @@ document.getElementById('gameID').innerHTML = " " + gameNum;
 if (!gameNum) {
     document.location.href = "index.html";
 }
+var userID;
 var f = new Firebase('https://codebattle.firebaseio.com/games/'+gameNum);
+var auth = new FirebaseSimpleLogin(f, function(error, user) {
+    if (user) {
+        userID = user.id;
+    } else {
+        document.location.href = "index.html";
+    }
+});
 var player1, codeMirror1, codeMirror2, firepad1, firepad2, language, playerCount, observerCount;
 var questions = [];
 var observer = false;
@@ -78,6 +86,9 @@ f.once('value', function(data) {
     data.child('questions').forEach(function(child) {
         questions.push(child.val());
     });
+    if (questions.length == 0) {
+        document.location.href = "index.html";
+    }
     var currPlayerFormat = {
         lineNumbers: true,
         mode: languageName,
@@ -146,7 +157,6 @@ f.once('value', function(data) {
     f.child('playerCount').on('value', function(data) {
         playerCount = data.val();
         if (observer) return;
-        console.log(observerCount, playerCount);
         if (observerCount == 0 && playerCount == 1) {
             f.onDisconnect().cancel();
             f.onDisconnect().set(null);
@@ -158,7 +168,6 @@ f.once('value', function(data) {
     f.child('observerCount').on('value', function(data) {
         observerCount = data.val();
         if (!observer) return;
-        console.log(observerCount, playerCount);
         if (observerCount == 1 && playerCount == 0) {
             f.onDisconnect().cancel();
             f.onDisconnect().set(null);
@@ -207,6 +216,10 @@ function submitCode() {
         { game: gameNum, player: player, code: code, questions: JSON.stringify(questions), lang: language },
         function(data){
             var allQuestionsPassed = true;
+            if(data == 'ERROR') {
+              append('Syntax Error: Please fix your code before resubmitting!');
+              return
+            }
             for (var i = 0; i < questions.length; i++) {
                 var question = questions[i];
                 append("Question: " + question);
@@ -349,7 +362,7 @@ function party_mode(player) {
 }
 function powerupHandler(question, user, powerup) {
     $("#"+question).remove();
-    console.log(player1);
+    
     if ((user == 0 && player1) || (user == 1 && !player1)) {
         if (powerup == 'party') {
             party_mode(user);

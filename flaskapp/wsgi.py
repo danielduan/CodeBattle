@@ -89,11 +89,8 @@ def run_tests():
   callback = str(request.args['callback'])
   player = str(request.args['player'])
   code = str(request.args['code'])
-  # print code
   questions = json.loads(str(request.args['questions']))
-  # print "QS", questions
-  # print 'printing'
-  # print len(questions)
+
   lang = SYNTAX_TO_CODEPAD[request.args['lang']]
   results = get_results(code, lang, questions)
 
@@ -121,7 +118,13 @@ def analyze_results(output, questions):
   print actual_outputs
   print expected_outputs
   # results = {}
-
+  print "LENGTHS", len(actual_outputs), len(expected_outputs)
+  if len(actual_outputs) != len(expected_outputs):
+    if len(actual_outputs) > 0 and 'line' in actual_outputs[-1].lower():
+      results = ''
+    else:
+      results = "'ERROR'"
+      return results
   results = {}
   i=0
   last_question = ''
@@ -135,7 +138,7 @@ def analyze_results(output, questions):
     last_question = question
     if actual == expected[1]:
       results[question][i] = 'PASS'
-    elif 'error' in actual.lower():
+    elif 'error' or 'line' or 'traceback' in actual.lower():
       results[question][i] = 'ERROR'
     else:
       results[question][i] = 'FAIL'
