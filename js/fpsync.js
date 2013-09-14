@@ -3,7 +3,7 @@ document.getElementById('gameID').innerHTML = " " + gameNum;
 if (!gameNum) {
     document.location.href = "index.html";
 }
-var userID="6";
+var userID="4";
 var f = new Firebase('https://codebattle.firebaseio.com/games/'+gameNum);
 /*var auth = new FirebaseSimpleLogin(f, function(error, user) {
     if (user) {
