@@ -3,15 +3,15 @@ document.getElementById('gameID').innerHTML = " " + gameNum;
 if (!gameNum) {
     document.location.href = "index.html";
 }
-var userID="4";
+var userID;
 var f = new Firebase('https://codebattle.firebaseio.com/games/'+gameNum);
-/*var auth = new FirebaseSimpleLogin(f, function(error, user) {
+var auth = new FirebaseSimpleLogin(f, function(error, user) {
     if (user) {
         userID = user.id;
     } else {
         document.location.href = "index.html";
     }
-});*/
+});
 var player1, codeMirror1, codeMirror2, firepad1, firepad2, language, playerCount, observerCount;
 var questions = [];
 var observer = false;
@@ -423,7 +423,7 @@ function show_joke(message) {
 }
 
 function powerupHandler(question, user, powerup) {
-    //$("#"+question).hide('pulsate', {}, 1000);
+    $("#"+question).hide('pulsate', {}, 1000);
     $("#"+question).remove();
     
     if ((user == 0 && player1) || (user == 1 && !player1)) {
