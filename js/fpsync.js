@@ -23,7 +23,7 @@ f.child('player2').child('console').on('value', function() {
 });
 f.child('winner').on('value', function(data) {
     if (data.val()) {
-        if (player1 && data.val() == 'player1' || !player1 && data.val() != 'player1') {
+        if (player1 && data.val() == 'player1' || !player1 && data.val() != 'player2') {
             displayModal('You have won :D');
         } else {
             displayModal('You have lost :(');
@@ -31,13 +31,18 @@ f.child('winner').on('value', function(data) {
     }
 });
 f.child('powerups').on('child_added', function(data) {
-    var powerup = "shield";
     var question = data.name();
+    var difficulty = problems[question]['difficulty'];
+    var powerup = "shield";
     if (data.val() == "player1") {
         addPowerup(question, powerup, 0);
     } else {
         addPowerup(question, powerup, 1);
     }
+});
+f.child('powerups').on('child_removed', function(data) {
+    var question = data.name();
+    powerupHandler(question, $("#"+question).attr('user'), $("#"+question).attr('type'));
 });
 firepadConsole1.on('ready', function() {
     if (firepadConsole1.isHistoryEmpty()) {
@@ -200,13 +205,14 @@ function submitCode() {
                     }
                 }
                 if (allTestsPassed) {
-                    f.child('powerups').child(question).once('value', function(data) {
+                    f.child('questionsDone').child(question).once('value', function(data) {
                         if (!data.val()) {
                             var playerName = "player2";
                             if (player1) {
                                 playerName = "player1";
                             }
-                            f.child('powerups').child(question).set(playerName);
+                            f.child('powerups').child(data.name()).set(playerName);
+                            f.child('questionsDone').child(data.name()).set(playerName);
                         }
                     });
                 } else {
@@ -243,7 +249,7 @@ function addPowerup(question, powerup, divID) {
     li.innerHTML=newListItem;
     ul.insertBefore(li, ul.getElementsByTagName('li')[0]);
     $("#"+question).click(function() {
-        powerupHandler(this.getAttribute('id'), this.getAttribute('user'), this.getAttribute('type'));
+        f.child('powerups').child(this.getAttribute('id')).remove();
     });
 }
 
@@ -321,8 +327,8 @@ function party_mode(player) {
     }, 15000)
 }
 function powerupHandler(question, user, powerup) {
-    if (observer) return;
     $("#"+question).remove();
+    if (observer) return;
     if (user == 0 && player1 || user == 1 && !player1) {
         //Make sure only the user who owns the powerup can execute it
         console.log("EXECUTE");
