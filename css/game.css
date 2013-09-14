@@ -90,6 +90,10 @@
 #FirepadDiv {
 }
 
+#facebookButton {
+    margin-top: 100px
+}
+
 #PowerupDiv {
     height:100px;
     overflow: hidden;

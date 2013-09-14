@@ -15,6 +15,10 @@
 	font-family: "Courier New", Courier, monospace;
 }
 
+#facebookButton {
+    margin-top: 50px
+}
+
 #JoinCode {
 	width: 250px;
 	margin-top: 25px;
