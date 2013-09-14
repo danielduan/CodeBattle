@@ -426,6 +426,11 @@ function powerupHandler(question, user, powerup) {
         } else if (powerup == 'unblur') {
             unblur(user);
         }
+    } else {
+        show_joke("User " + (user + 1) + " sent " + powerup);
+        setTimeout(function() {
+            $('#JokeModal').foundation('reveal', 'close');
+        }, 500);
     }
-    console.log(question, powerup, user);
+    //console.log(question, powerup, user);
 }
