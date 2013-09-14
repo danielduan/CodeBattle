@@ -10,7 +10,7 @@ var obsever = false;
 var consoleFormat = {
     theme: 'console',
     readOnly: 'nocursor'
-}    
+}
 console1 = CodeMirror(document.getElementById('console1'), consoleFormat);
 console2 = CodeMirror(document.getElementById('console2'), consoleFormat);
 firepadConsole1 = Firepad.fromCodeMirror(f.child('player1').child('console'), console1);
@@ -20,6 +20,15 @@ f.child('player1').child('console').on('value', function() {
 });
 f.child('player2').child('console').on('value', function() {
     console2.getDoc().setCursor(9007199254740992, 0);
+});
+f.child('winner').on('value', function(data) {
+    if (data.val()) {
+        if (player1 && data.val() == 'player1' || !player1 && data.val() != 'player1') {
+            displayModal('You have won :D');
+        } else {
+            displayModal('You have lost :(');
+        }
+    }
 });
 firepadConsole1.on('ready', function() {
     if (firepadConsole1.isHistoryEmpty()) {
@@ -55,6 +64,14 @@ f.once('value', function(data) {
         mode: languageName,
         indentUnit: 4,
         tabMode: "shift",
+        theme: 'default pad blurry',
+        readOnly: 'nocursor'
+    };
+    var observerFormat = {
+        lineNumbers: true,
+        mode: languageName,
+        indentUnit: 4,
+        tabMode: "shift",
         theme: 'default pad',
         readOnly: 'nocursor'
     };
@@ -77,8 +94,8 @@ f.once('value', function(data) {
     } else {
         obsever = true;
         f.child('observerCount').set(observerCount + 1);
-        codeMirror1 = CodeMirror(document.getElementById('firepad1'), otherPlayerFormat);
-        codeMirror2 = CodeMirror(document.getElementById('firepad2'), otherPlayerFormat);
+        codeMirror1 = CodeMirror(document.getElementById('firepad1'), observerFormat);
+        codeMirror2 = CodeMirror(document.getElementById('firepad2'), observerFormat);
         document.getElementById('submit1').className += ' disabled';
         document.getElementById('submit0').className += ' disabled';
         document.getElementById('submit1').onclick = "";
@@ -90,29 +107,20 @@ f.once('value', function(data) {
     firepad2 = Firepad.fromCodeMirror(f.child('player2').child('code'), codeMirror2);
     firepad1.on('ready', function() {
         if (firepad1.isHistoryEmpty()) {
-            $.get(
-                "../questions.json",
-                function(data) {
-                    setOriginalText(data, firepad1);
-                },
-                "json"
-            );
+            setOriginalText(problems, firepad1);
+            codeMirror1.getDoc().setCursor(0, 0);
         }
     });
     firepad2.on('ready', function() {
         if (firepad2.isHistoryEmpty()) {
-            $.get(
-                "../questions.json",
-                function(data) {
-                    setOriginalText(data, firepad2);
-                },
-                "json"
-            );
+            setOriginalText(problems, firepad2);
+            codeMirror1.getDoc().setCursor(0, 0);
         }
     });
 });
 function setOriginalText(data, firepad) {
     var initial = "";
+    console.log(data);
     for (var i = 0; i < questions.length; i++) {
         if (language == "python") {
             initial += "\"\"\"\n";
@@ -144,7 +152,7 @@ function submitCode() {
         code = codeMirror1.getDoc().getValue();
     }
     $.get(
-        "http://codebattle.ngrok.com/run_tests",
+        "http://codebattle.aws.af.cm/run_tests",
         { game: gameNum, player: player, code: code, questions: JSON.stringify(questions), lang: language },
         function(data){
             var allQuestionsPassed = true;
@@ -166,7 +174,11 @@ function submitCode() {
                 }
             }
             if (allQuestionsPassed) {
-                // Winner!
+                if (player1) {
+                    f.child('winner').set('player1');
+                } else {
+                    f.child('winner').set('player2');
+                }
             }
         },
         "jsonp"
@@ -181,7 +193,7 @@ function append(string) {
 }
 function getParam(name) {
     return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
-}   
+}
 
 function addPowerup(powerup, divID) {
     var div = 'powerups' + divID;

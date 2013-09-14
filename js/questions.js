@@ -1,4 +1,4 @@
-{
+var problems = {
     "double": {
         "python": "def double(x):\n return -1",
         "ruby": "def double(x)\n return -1\nend",
