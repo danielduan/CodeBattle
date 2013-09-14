@@ -83,6 +83,13 @@ f.child('player2').child('userID').on('value', function(snapshot) {
         $("#player2Image").attr("src", "https://graph.facebook.com/"+snapshot.val()+"/picture");
     }
 });
+f.child('observers').on('child_added', function(data) {
+    var id=data.name();
+    $("#observers").append("<li id='"+id+"'><div style='display:hidden;'><img src='https://graph.facebook.com/"+id+"/picture' style='display:block;width:25px;'><span>Mark</span></div></li>");
+});
+f.child('observers').on('child_removed', function(data) {
+    $("#"+data.name()).remove();
+});
 f.child('insults').on('child_added', function(data) {
     console.log(data.val());
     if (data.val().player1 == player1) {
