@@ -64,6 +64,14 @@ f.once('value', function(data) {
         mode: languageName,
         indentUnit: 4,
         tabMode: "shift",
+        theme: 'default pad blurry',
+        readOnly: 'nocursor'
+    };
+    var observerFormat = {
+        lineNumbers: true,
+        mode: languageName,
+        indentUnit: 4,
+        tabMode: "shift",
         theme: 'default pad',
         readOnly: 'nocursor'
     };
@@ -86,8 +94,8 @@ f.once('value', function(data) {
     } else {
         obsever = true;
         f.child('observerCount').set(observerCount + 1);
-        codeMirror1 = CodeMirror(document.getElementById('firepad1'), otherPlayerFormat);
-        codeMirror2 = CodeMirror(document.getElementById('firepad2'), otherPlayerFormat);
+        codeMirror1 = CodeMirror(document.getElementById('firepad1'), observerFormat);
+        codeMirror2 = CodeMirror(document.getElementById('firepad2'), observerFormat);
         document.getElementById('submit1').className += ' disabled';
         document.getElementById('submit0').className += ' disabled';
         document.getElementById('submit1').onclick = "";
@@ -103,6 +111,7 @@ f.once('value', function(data) {
                 "../questions.json",
                 function(data) {
                     setOriginalText(data, firepad1);
+                    codeMirror1.getDoc().setCursor(0, 0);
                 },
                 "json"
             );
@@ -114,6 +123,7 @@ f.once('value', function(data) {
                 "../questions.json",
                 function(data) {
                     setOriginalText(data, firepad2);
+                    codeMirror2.getDoc().setCursor(0, 0);
                 },
                 "json"
             );

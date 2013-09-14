@@ -13,13 +13,13 @@
     },
     "prime": {
         "python": "def prime(x):\n return False",
-        "ruby": "def square(x)\n return False\nend",
-        "php": "function square($x)\n{\n return FALSE;\n}",
+        "ruby": "def prime(x)\n return false\nend",
+        "php": "function prime($x)\n{\n return FALSE;\n}",
         "comments": "Prime\n======\nGiven an integer x, determine if it is prime.\n\nINPUT\n2\n\nOUTPUT\nTrue"
     },
     "reverse": {
         "python": "def reverse(x):\n return \"\"",
-        "ruby": "def reverse(x)\n return ''\nend",
+        "ruby": "def reverse(x)\n return \"\"\nend",
         "php": "function reverse($x)\n{\n return '';\n}",
         "comments": "Reverse\n======\nGiven an string s, reverse it\n\nINPUT\n\"hctibazzip\"\n\nOUTPUT\n\"pizzabitch\""
     },
