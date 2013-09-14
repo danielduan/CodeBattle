@@ -12,6 +12,7 @@ var auth = new FirebaseSimpleLogin(f, function(error, user) {
         document.location.href = "index.html";
     }
 });
+var pulsatingTimes = 0;
 var player1, codeMirror1, codeMirror2, firepad1, firepad2, language, playerCount, observerCount;
 var questions = [];
 var observer = false;
@@ -425,10 +426,17 @@ function show_joke(message) {
 }
 
 function powerupHandler(question, user, powerup) {
-    //$("#"+question).hide('pulsate', {}, 1000);
-    $("#"+question).remove();
-    
-    if ((user == 0 && player1) || (user == 1 && !player1) || observer) {
+    (function pulse(){
+        pulsatingTimes++;
+        if(pulsatingTimes>2) {
+            pulsatingTimes=0;
+            $("#"+question).remove();
+        } else {
+            $("#"+question).delay(100).fadeOut('fast').delay(50).fadeIn('fast',pulse);
+        }
+    })();
+   if ((user == 0 && player1) || (user == 1 && !player1) || observer) {
+
         if (powerup == 'party') {
             party_mode(user);
         } else if (powerup == 'removeline') {
@@ -437,11 +445,6 @@ function powerupHandler(question, user, powerup) {
             unblur(user);
         }
     }
-    // if (observer) {
-    //     show_joke("User " + (user + 1) + " sent " + powerup);
-    //     setTimeout(function() {
-    //         $('#JokeModal').foundation('reveal', 'close');
-    //     }, 100);
-    // }
+
     //console.log(question, powerup, user);
 }
