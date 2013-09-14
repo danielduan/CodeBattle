@@ -14,12 +14,12 @@
     <script src="codemirror/mode/php/php.js"></script>
     <script src="codemirror/mode/python/python.js"></script>
     <script src="codemirror/mode/ruby/ruby.js"></script>
-    <link rel="stylesheet" href="codemirror/lib/codemirror.css" />
     <script src="js/firepad.js"></script>
+    <script src="js/vendor/custom.modernizr.js"></script>
+    <link rel="stylesheet" href="codemirror/lib/codemirror.css" />
     <link rel="stylesheet" href="css/foundation.css" />
     <link rel="stylesheet" href="css/firepad.css" />
     <link rel="stylesheet" href="css/game.css" />
-    <script src="js/vendor/custom.modernizr.js"></script>
 </head>
 <body>
     <div id="Title" class="large-12 small-12 text-left columns code">
@@ -32,15 +32,23 @@
         </div>
     </div>
     <div id="PowerupDiv" class="large-12 small-12 columns">
-      <div id="powerupdiv0" class="large-6 small-12 columns">
+      <div id="powerupdiv0" class="large-5 small-12 columns">
         <ul id="powerups0" class="powerup">
             <li style="height:100px; width:1px"></li>
         </ul>
       </div>
-      <div id="powerupdiv1" class="large-6 small-12 columns">
+      <div id="player1Data" class="large-1 small-12 columns" style="height: 95px; display:hidden;">
+          <img id="player1Image" src="" style="width:75px;position: absolute;right: 15px;top: 0px;">
+          <span id="player1Name" style="position: absolute;right: 15px;bottom: 0px;"></span>
+      </div>
+      <div id="powerupdiv1" class="large-5 small-12 columns">
         <ul id="powerups1" class="powerup">
             <li style="height:100px; width:1px"></li>
         </ul>
+      </div>
+      <div id="player2Data" class="large-1 small-12 columns" style="height: 95px; display:hidden;">
+          <img id="player2Image" src="" style="width:75px;position: absolute;right: 0px;top: 0px;">
+          <span id="player2Name" style="position: absolute;right: 0px;bottom: 0px;"></span>
       </div>
     </div>
     <div id="FirepadDiv">

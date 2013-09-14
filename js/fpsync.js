@@ -3,7 +3,7 @@ document.getElementById('gameID').innerHTML = " " + gameNum;
 if (!gameNum) {
     document.location.href = "index.html";
 }
-var userID="6";
+var userID="4";
 var f = new Firebase('https://codebattle.firebaseio.com/games/'+gameNum);
 /*var auth = new FirebaseSimpleLogin(f, function(error, user) {
     if (user) {
@@ -65,6 +65,24 @@ f.child('powerups').on('child_removed', function(data) {
     var question = data.name();
     powerupHandler(question, $("#"+question).attr('user'), $("#"+question).attr('type'));
 });
+f.child('player1').child('userID').on('value', function(snapshot) {
+    if (snapshot.val()) {
+        $.get("https://graph.facebook.com/"+snapshot.val(), function(data) {
+            $("#player1Name").text(data.first_name);
+            $("#player1Data").show();
+        });
+        $("#player1Image").attr("src", "https://graph.facebook.com/"+snapshot.val()+"/picture");
+    }
+});
+f.child('player2').child('userID').on('value', function(snapshot) {
+    if (snapshot.val()) {
+        $.get("https://graph.facebook.com/"+snapshot.val(), function(data) {
+            $("#player2Name").text(data.first_name);
+            $("#player2Data").show();
+        });
+        $("#player2Image").attr("src", "https://graph.facebook.com/"+snapshot.val()+"/picture");
+    }
+});
 f.child('insults').on('child_added', function(data) {
     console.log(data.val());
     if (data.val().player1 == player1) {
@@ -96,6 +114,7 @@ f.once('value', function(data) {
     }
     var currPlayerFormat = {
         lineNumbers: true,
+        lineWrapping: true,
         mode: languageName,
         indentUnit: 4,
         tabMode: "shift",
@@ -104,6 +123,7 @@ f.once('value', function(data) {
     };
     var otherPlayerFormat = {
         lineNumbers: true,
+        lineWrapping: true,
         mode: "text/plain",
         indentUnit: 4,
         tabMode: "shift",
@@ -112,6 +132,7 @@ f.once('value', function(data) {
     };
     var observerFormat = {
         lineNumbers: true,
+        lineWrapping: true,
         mode: languageName,
         indentUnit: 4,
         tabMode: "shift",
@@ -121,6 +142,7 @@ f.once('value', function(data) {
     if (!playerCount || playerCount == 0) {
         player1 = true;
         f.child('playerCount').set(playerCount + 1);
+        f.child('player1').child('userID').set(userID);
         codeMirror1 = CodeMirror(document.getElementById('firepad1'), currPlayerFormat);
         codeMirror2 = CodeMirror(document.getElementById('firepad2'), otherPlayerFormat);
         $("#button1").click(function() {
@@ -135,6 +157,7 @@ f.once('value', function(data) {
     } else if (playerCount == 1) {
         player1 = false;
         f.child('playerCount').set(playerCount + 1);
+        f.child('player2').child('userID').set(userID);
         codeMirror1 = CodeMirror(document.getElementById('firepad1'), otherPlayerFormat);
         codeMirror2 = CodeMirror(document.getElementById('firepad2'), currPlayerFormat);
         $("#button2").click(function() {
