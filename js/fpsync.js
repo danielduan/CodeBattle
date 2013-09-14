@@ -2,8 +2,8 @@ var gameNum = getParam('game');
 if (!gameNum) {
     document.location.href = "index.html";
 }
-var f = new Firebase('https://codebattle.firebaseio.com/games/game'+gameNum);
-var player1, codeMirror1, codeMirror2, firepad1, firepad2;
+var f = new Firebase('https://codebattle.firebaseio.com/games/'+gameNum);
+var player1, codeMirror1, codeMirror2, firepad1, firepad2, language, question;
 var obsever = false;
 var consoleFormat = {
     theme: 'console',
@@ -26,7 +26,8 @@ firepadConsole2.on('ready', function() {
 f.once('value', function(data) {
     var playerCount = data.child('playerCount').val();
     var observerCount = data.child('observerCount').val();
-    var language = data.child('language').val();
+    language = data.child('language').val();
+    question = data.child('question').val();
     var currPlayerFormat = {
         lineNumbers: true,
         mode: language,
@@ -72,6 +73,22 @@ f.once('value', function(data) {
         }
     });
 });
+function submitCode() {
+    var player = "2";
+    var code = codeMirror2.getDoc().getValue();
+    if (player1) {
+        player = "1";
+        code = codeMirror1.getDoc().getValue();
+    }
+    $.post(
+        "http://codebattle.ngrok.com/run_tests",
+        { game: gameNum, player: player, code: code, question: question, lang: language },
+        function(data){
+            console.log(data);
+        },
+        "json"
+    );
+}
 function getParam(name) {
     return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
 }
