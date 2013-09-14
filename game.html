@@ -69,29 +69,16 @@
 
     <div id="GameModal" class="reveal-modal">
       <h2><span id="modalStatus">Awesome. I have it.</span></h2>
-      <p class="lead">Your couch.  It is mine.</p>
-      <p>Im a cool paragraph that lives inside of an even cooler modal. Wins</p>
+      <div>
+        <a href="hi" class="button">Next Game</a>
+      </div>
       <a class="close-reveal-modal">&#215;</a>
     </div>
 
     <script>
         function displayModal(message) {
             document.getElementById('modalStatus').innerHTML = message;
-            //$('#GameModal').foundation('reveal', 'open');
-            $( "#dialog-confirm" ).dialog({
-              resizable: false,
-              height:140,
-              modal: true,
-              buttons: {
-                "Delete all items": function() {
-                  $( this ).dialog( "close" );
-                },
-                Cancel: function() {
-                  $( this ).dialog( "close" );
-                }
-              }
-            });
-            
+            $('#GameModal').foundation('reveal', 'open');
         }
     </script>
 
