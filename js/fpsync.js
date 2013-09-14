@@ -10,7 +10,7 @@ var obsever = false;
 var consoleFormat = {
     theme: 'console',
     readOnly: 'nocursor'
-}    
+}
 console1 = CodeMirror(document.getElementById('console1'), consoleFormat);
 console2 = CodeMirror(document.getElementById('console2'), consoleFormat);
 firepadConsole1 = Firepad.fromCodeMirror(f.child('player1').child('console'), console1);
@@ -107,31 +107,20 @@ f.once('value', function(data) {
     firepad2 = Firepad.fromCodeMirror(f.child('player2').child('code'), codeMirror2);
     firepad1.on('ready', function() {
         if (firepad1.isHistoryEmpty()) {
-            $.get(
-                "../questions.json",
-                function(data) {
-                    setOriginalText(data, firepad1);
-                    codeMirror1.getDoc().setCursor(0, 0);
-                },
-                "json"
-            );
+            setOriginalText(problems, firepad1);
+            codeMirror1.getDoc().setCursor(0, 0);
         }
     });
     firepad2.on('ready', function() {
         if (firepad2.isHistoryEmpty()) {
-            $.get(
-                "../questions.json",
-                function(data) {
-                    setOriginalText(data, firepad2);
-                    codeMirror2.getDoc().setCursor(0, 0);
-                },
-                "json"
-            );
+            setOriginalText(problems, firepad2);
+            codeMirror1.getDoc().setCursor(0, 0);
         }
     });
 });
 function setOriginalText(data, firepad) {
     var initial = "";
+    console.log(data);
     for (var i = 0; i < questions.length; i++) {
         if (language == "python") {
             initial += "\"\"\"\n";
@@ -204,7 +193,7 @@ function append(string) {
 }
 function getParam(name) {
     return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
-}   
+}
 
 function addPowerup(powerup, divID) {
     var div = 'powerups' + divID;
