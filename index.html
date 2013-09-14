@@ -7,41 +7,18 @@
         <meta name="viewport" content="width=device-width">
     <title>CodeBattle </title>
 
-
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="js/questions.js"></script>
     <link rel="stylesheet" href="css/foundation.css">
     <link rel="stylesheet" href="css/title.css">
+    <link rel="stylesheet" href="css/auth-buttons.css"/>
     <script src="https://cdn.firebase.com/v0/firebase.js"></script>
+    <script src='https://cdn.firebase.com/v0/firebase-simple-login.js'></script>
     <script src="js/vendor/custom.modernizr.js"></script>
 
 </head>
 <body>
-    <!--<div id="fb-root"></div>
-    <script>
-      // Additional JS functions here
-      window.fbAsyncInit = function() {
-        FB.init({
-          appId      : '414397718662278', // App ID
-          channelUrl : '//http://danielduan.github.io/CodeBattle/channel.html', // Channel File
-          status     : true, // check login status
-          cookie     : true, // enable cookies to allow the server to access the session
-          xfbml      : true  // parse XFBML
-        });
-
-        // Additional init code here
-
-      };
-
-      // Load the SDK asynchronously
-      (function(d){
-         var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-         if (d.getElementById(id)) {return;}
-         js = d.createElement('script'); js.id = id; js.async = true;
-         js.src = "//connect.facebook.net/en_US/all.js";
-         ref.parentNode.insertBefore(js, ref);
-       }(document));
-    </script>-->
-
+    <div id="fb-root"></div>
     <div id="StartPageDiv" class="row">
         <div id="GameNameDiv" class="row">
             <div id="LineNum" class="large-1 small-1 columns">
@@ -58,7 +35,12 @@
                 CodeBattle.Timed <span class="magenta">=</span> <span class="purple">true</span>; <br>
             </div>
         </div>
-        <div class="row">
+        <div id="facebookLogin">
+            <a class="btn-auth btn-facebook large" onclick="login()" href="#">
+                <b>Sign in</b> to get started.
+            </a>
+        </div>
+        <div class="gameSelection row" style="display:none;">
             <div id="JoinCodeInput" class="large-6 text-right columns">
                 <select id="LanguageSelector">
                     <option value="python">Python</option>
@@ -70,13 +52,37 @@
                 <input id="JoinCode" type="text" placeholder="Paste game session ID here.">
             </div>
         </div>
-        <div id="GameStartDiv" class="row">
+        <div id="GameStartDiv" class="gameSelection row" style="display:none;">
             <a id="GameCreateButton" class="medium blue button" href="game.html">StartGame()</a>
             <a id="GameJoinButton" class="medium yellow button" href="#">JoinGame()</a>
         </div>
     </div>
 
     <script>
+        var userID;
+        var firebase = new Firebase('https://codebattle.firebaseio.com');
+        var auth = new FirebaseSimpleLogin(firebase, function(error, user) {
+            if (user) {
+                hideLogin();
+                userID = user.id;
+            } else {
+                showLogin();
+            }
+        });
+        function login() {
+            auth.login('facebook', {
+                rememberMe: true,
+                scope: ''
+            });
+        }
+        function hideLogin() {
+            $("#facebookLogin").hide();
+            $(".gameSelection").show();
+        }
+        function showLogin() {
+            $("#facebookLogin").show();
+            $(".gameSelection").hide();
+        }
         document.getElementById('GameJoinButton').addEventListener('click', function (event) {
             event.preventDefault();
             document.getElementById('GameCreateButton').style.display = 'none';
@@ -99,16 +105,10 @@
                     q.push(key);
                 }
             }
-            f.set({language:lang, questions:q, observerCount:0, playerCount:0}, function() {
+            f.set({language:lang, questions:q, playerCount:0}, function() {
                 document.location.href = "game.html?game=" + id;
             });
         });
-    </script>
-
-    <script>
-        document.write('<script src=' +
-        ('__proto__' in {} ? 'js/vendor/zepto' : 'js/vendor/jquery') +
-        '.js><\/script>')
     </script>
 
     <script src="js/foundation.min.js"></script>

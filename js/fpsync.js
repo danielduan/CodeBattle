@@ -3,7 +3,15 @@ document.getElementById('gameID').innerHTML = " " + gameNum;
 if (!gameNum) {
     document.location.href = "index.html";
 }
+var userID="6";
 var f = new Firebase('https://codebattle.firebaseio.com/games/'+gameNum);
+/*var auth = new FirebaseSimpleLogin(f, function(error, user) {
+    if (user) {
+        userID = user.id;
+    } else {
+        document.location.href = "index.html";
+    }
+});*/
 var player1, codeMirror1, codeMirror2, firepad1, firepad2, language, playerCount, observerCount;
 var questions = [];
 var observer = false;
@@ -31,10 +39,22 @@ f.child('winner').on('value', function(data) {
     }
 });
 f.child('powerups').on('child_added', function(data) {
-    var powerup = "party";
     var question = data.name();
     var difficulty = problems[question]['difficulty'];
-    var powerup = "shield";
+
+    var choose = {};
+    choose['double'] = "unblur";
+    choose['square'] = "removeline";
+    choose['prime'] = "party";
+    choose['reverse'] = "unblur";
+    choose['sumlist'] = "removeline";
+    choose['anagrams'] = "party";
+    choose['string_match'] = "unblur";
+    choose['median'] = "removeline";
+    choose['thirty_times'] = "party";
+
+    var powerup = choose[question];
+
     if (data.val() == "player1") {
         addPowerup(question, powerup, 0);
     } else {
@@ -63,7 +83,6 @@ firepadConsole2.on('ready', function() {
 });
 f.once('value', function(data) {
     var playerCount = data.child('playerCount').val();
-    var observerCount = data.child('observerCount').val();
     language = data.child('language').val();
     var languageName = "text/x-" + language;
     if (languageName == "python") {
@@ -72,6 +91,9 @@ f.once('value', function(data) {
     data.child('questions').forEach(function(child) {
         questions.push(child.val());
     });
+    if (questions.length == 0) {
+        document.location.href = "index.html";
+    }
     var currPlayerFormat = {
         lineNumbers: true,
         mode: languageName,
@@ -114,7 +136,7 @@ f.once('value', function(data) {
         document.getElementById('status').innerHTML = "Player 2";
     } else {
         observer = true;
-        f.child('observerCount').set(observerCount + 1);
+        f.child('observers').child(userID).set(true);
         codeMirror1 = CodeMirror(document.getElementById('firepad1'), observerFormat);
         codeMirror2 = CodeMirror(document.getElementById('firepad2'), observerFormat);
         document.getElementById('submit1').className += ' disabled';
@@ -140,7 +162,6 @@ f.once('value', function(data) {
     f.child('playerCount').on('value', function(data) {
         playerCount = data.val();
         if (observer) return;
-        console.log(observerCount, playerCount);
         if (observerCount == 0 && playerCount == 1) {
             f.onDisconnect().cancel();
             f.onDisconnect().set(null);
@@ -149,16 +170,18 @@ f.once('value', function(data) {
             f.child('playerCount').onDisconnect().set(playerCount - 1);
         }
     });
-    f.child('observerCount').on('value', function(data) {
-        observerCount = data.val();
+    f.child('observers').on('value', function(data) {
+        observerCount = 0;
+        data.forEach(function(child) {
+            observerCount++;
+        });
         if (!observer) return;
-        console.log(observerCount, playerCount);
         if (observerCount == 1 && playerCount == 0) {
             f.onDisconnect().cancel();
             f.onDisconnect().set(null);
         } else {
-            f.child('observerCount').onDisconnect().cancel();
-            f.child('observerCount').onDisconnect().set(observerCount - 1);
+            f.child('observers').child(userID).onDisconnect().cancel();
+            f.child('observers').child(userID).onDisconnect().set(null);
         }
     });
 });
@@ -201,6 +224,10 @@ function submitCode() {
         { game: gameNum, player: player, code: code, questions: JSON.stringify(questions), lang: language },
         function(data){
             var allQuestionsPassed = true;
+            if(data == 'ERROR') {
+              append('Syntax Error: Please fix your code before resubmitting!');
+              return
+            }
             for (var i = 0; i < questions.length; i++) {
                 var question = questions[i];
                 append("Question: " + question);
@@ -303,7 +330,7 @@ function getCodeDiv(player) {
 function removeLine(divID) {
     var text;
 
-    if (divID == 0) {
+    if (divID == 1) {
         text = firepad1.getText();
         var oldTheme = codeMirror1.getOption('theme');
         codeMirror1.setOption('theme', 'changed');
@@ -369,8 +396,10 @@ function powerupHandler(question, user, powerup) {
     if ((user == 0 && player1) || (user == 1 && !player1)) {
         if (powerup == 'party') {
             party_mode(user);
-        } else if (powerup == 'party') {
+        } else if (powerup == 'removeline') {
             removeLine(user);
+        } else if (powerup == 'unblur') {
+            unblur(user);
         }
     }
     console.log(question, powerup, user);
