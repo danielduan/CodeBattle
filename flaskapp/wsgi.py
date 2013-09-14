@@ -67,16 +67,19 @@ def get_results(code, lang, questions):
 def analyze_results(output, questions):
   print output
   actual_outputs = [output.strip() for output in output.split('\n\n') if output!='']
-  expected_outputs = [output for question in questions for output in get_test_cases(question).values()]
+  expected_outputs = [(question, output) for question in questions for output in get_test_cases(question).values()]
   print actual_outputs
   print expected_outputs
   results = {}
   i=0
   for actual, expected in zip(actual_outputs, expected_outputs):
-    if (actual == expected):
-      results[i] = 'PASS'
+    question = expected[0]
+    if (actual == expected[1]):
+      results[i] = (question, 'PASS')
+    elif ('error' in actual.lower()):
+      results[i] = (question, 'ERROR')
     else:
-      results[i] = 'FAIL'
+      results[i] = (question, 'FAIL')
     i = i + 1
   return results
 
