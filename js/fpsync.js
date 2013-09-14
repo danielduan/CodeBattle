@@ -85,7 +85,9 @@ f.child('player2').child('userID').on('value', function(snapshot) {
 });
 f.child('observers').on('child_added', function(data) {
     var id=data.name();
-    $("#observers").append("<li id='"+id+"'><div style='display:hidden;'><img src='https://graph.facebook.com/"+id+"/picture' style='display:block;width:25px;'><span>Mark</span></div></li>");
+    $.get("https://graph.facebook.com/"+id, function(data) {
+        $("#observers").append("<li id='"+id+"'><div style='display:hidden;'><img src='https://graph.facebook.com/"+id+"/picture' style='display:block;width:25px;'><span>"+data.first_name+"</span></div></li>");
+    });
 });
 f.child('observers').on('child_removed', function(data) {
     $("#"+data.name()).remove();
@@ -423,7 +425,7 @@ function show_joke(message) {
 }
 
 function powerupHandler(question, user, powerup) {
-    $("#"+question).hide('pulsate', {}, 1000);
+    //$("#"+question).hide('pulsate', {}, 1000);
     $("#"+question).remove();
     
     if ((user == 0 && player1) || (user == 1 && !player1)) {
