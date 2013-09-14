@@ -21,7 +21,7 @@ var problems = {
     "python": "def reverse(x):\n return \"\"",
     "ruby": "def reverse(x)\n return \"\"\nend",
     "php": "function reverse($x)\n{\n\treturn '';\n}",
-    "comments": "Reverse\n======\nGiven an string s, reverse it\n\nINPUT\n\"hctibazzip\"\n\nOUTPUT\n\"pizzabitch\""
+    "comments": "Reverse\n========\nGiven an string s, reverse it\n\nINPUT\n\"hctibazzip\"\n\nOUTPUT\n\"pizzabitch\""
   },
   "sumlist": {
     "python": "def sumlist(x):\n return -1",
@@ -33,13 +33,13 @@ var problems = {
     "python": "def anagrams(x):\n return \"\"",
     "ruby": "def anagrams(x)\n return \"\"\nend",
     "php": "function anagrams($x)\n{\n\treturn \"\";\n}",
-    "comments": "Anagrams\n=======\nGiven an string of space delimited strings, return a list of the counts\nof each unique group of anagrams found within the list.\n\nINPUT\n\"bat tab tub lol but\"\n\nOUTPUT\n\"2 2 1\""
+    "comments": "Anagrams\n========\nGiven an string of space delimited strings, return a list of the counts\nof each unique group of anagrams found within the list.\n\nINPUT\n\"bat tab tub lol but\"\n\nOUTPUT\n\"2 2 1\""
   },
   "string_match": {
     "python": "def string_match(s):\n return \"\"",
     "ruby": "def string_match(s)\n return \"\"\nend",
     "php": "function string_match($s)\n{\n\treturn \"\";\n}",
-    "comments": "String Match\n=======\nGiven a string with two space delimited strings, a and b, return the number \nof the positions where they contain the same length 2 substring.\n\nINPUT\n\"'xxcaazz xxbaaz'\"\n\nOUTPUT\n\"3\""
+    "comments": "String Match\n============\nGiven a string with two space delimited strings, a and b, return the number \nof the positions where they contain the same length 2 substring.\n\nINPUT\n\"'xxcaazz xxbaaz'\"\n\nOUTPUT\n\"3\""
   },
   "median": {
     "python": "def median(s):\n return \"\"",
@@ -51,6 +51,6 @@ var problems = {
     "python": "def thirty_times(s):\n return \"\"",
     "ruby": "def thirty_times(s)\n return \"\"\nend",
     "php": "function thirty_times($s)\n{\n\treturn \"\";\n}",
-    "comments": "Thirty Times\n=======\nGiven an string s, return 30 copies of it stringed together.\n\nINPUT\n\"'b'\"\n\nOUTPUT\n\"'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'\""
+    "comments": "Thirty Times\n============\nGiven an string s, return 30 copies of it stringed together.\n\nINPUT\n\"'b'\"\n\nOUTPUT\n\"'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'\""
   }
 }
