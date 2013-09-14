@@ -1,0 +1,4 @@
+gunicorn==0.17.2
+Flask==0.9
+virtualenv==1.9.1
+requests==1.1.0
