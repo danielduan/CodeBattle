@@ -4,9 +4,9 @@ if (!gameNum) {
     document.location.href = "index.html";
 }
 var f = new Firebase('https://codebattle.firebaseio.com/games/'+gameNum);
-var player1, codeMirror1, codeMirror2, firepad1, firepad2, language;
+var player1, codeMirror1, codeMirror2, firepad1, firepad2, language, playerCount, observerCount;
 var questions = [];
-var obsever = false;
+var observer = false;
 var consoleFormat = {
     theme: 'console',
     readOnly: 'nocursor'
@@ -101,7 +101,7 @@ f.once('value', function(data) {
         document.getElementById('submit0').onclick = "";
         document.getElementById('status').innerHTML = "Player 2";
     } else {
-        obsever = true;
+        observer = true;
         f.child('observerCount').set(observerCount + 1);
         codeMirror1 = CodeMirror(document.getElementById('firepad1'), observerFormat);
         codeMirror2 = CodeMirror(document.getElementById('firepad2'), observerFormat);
@@ -110,7 +110,6 @@ f.once('value', function(data) {
         document.getElementById('submit1').onclick = "";
         document.getElementById('submit0').onclick = "";
         document.getElementById('status').innerHTML = "Observer";
-
     }
     firepad1 = Firepad.fromCodeMirror(f.child('player1').child('code'), codeMirror1);
     firepad2 = Firepad.fromCodeMirror(f.child('player2').child('code'), codeMirror2);
@@ -124,6 +123,30 @@ f.once('value', function(data) {
         if (firepad2.isHistoryEmpty()) {
             setOriginalText(problems, firepad2);
             codeMirror1.getDoc().setCursor(0, 0);
+        }
+    });
+    f.child('playerCount').on('value', function(data) {
+        playerCount = data.val();
+        if (observer) return;
+        console.log(observerCount, playerCount);
+        if (observerCount == 0 && playerCount == 1) {
+            f.onDisconnect().cancel();
+            f.onDisconnect().set(null);
+        } else {
+            f.child('playerCount').onDisconnect().cancel();
+            f.child('playerCount').onDisconnect().set(playerCount - 1);
+        }
+    });
+    f.child('observerCount').on('value', function(data) {
+        observerCount = data.val();
+        if (!observer) return;
+        console.log(observerCount, playerCount);
+        if (observerCount == 1 && playerCount == 0) {
+            f.onDisconnect().cancel();
+            f.onDisconnect().set(null);
+        } else {
+            f.child('observerCount').onDisconnect().cancel();
+            f.child('observerCount').onDisconnect().set(observerCount - 1);
         }
     });
 });
@@ -153,7 +176,7 @@ function setOriginalText(data, firepad) {
     firepad.setText(initial);
 };
 function submitCode() {
-    if (obsever) return;
+    if (observer) return;
     var player = "2";
     var code = codeMirror2.getDoc().getValue();
     if (player1) {
@@ -240,6 +263,42 @@ function getCodeDiv(player) {
         return "OpponentDiv";
     }
 }
+function removeLine(divID) {
+    var text;
+
+    if (divID == 0) {
+        text = firepad1.getText();
+        var oldTheme = codeMirror1.getOption('theme');
+        codeMirror1.setOption('theme', 'changed');
+        setTimeout(function() {
+            codeMirror1.setOption('theme', oldTheme);
+        }, 1000);
+    } else {
+        text = firepad2.getText();
+        var oldTheme = codeMirror2.getOption('theme');
+        codeMirror2.setOption('theme', 'changed');
+        setTimeout(function() {
+            codeMirror2.setOption('theme', oldTheme);
+        }, 1000);
+    }
+
+    var textArray = text.split('\n');
+
+    var index = Math.floor((Math.random()*textArray.length));
+
+    if (index > -1) {
+        textArray.splice(index, 1);
+    }
+
+    text = textArray.join("\n");
+
+    if (divID == 0) {
+        firepad1.setText(text);
+    } else {
+        firepad2.setText(text);
+    }
+}
+
 function unblur(player) {
     var thisCodeMirror = getCodeMirror(player);
     var previousTheme = thisCodeMirror.getOption('theme');
@@ -262,7 +321,8 @@ function party_mode(player) {
     }, 15000)
 }
 function powerupHandler(question, user, powerup) {
-    if (obsever) return;
+    if (observer) return;
+    $("#"+question).remove();
     if (user == 0 && player1 || user == 1 && !player1) {
         //Make sure only the user who owns the powerup can execute it
         console.log("EXECUTE");

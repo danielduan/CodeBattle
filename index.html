@@ -99,7 +99,7 @@
                     q.push(key);
                 }
             }
-            f.set({language:lang, questions:q}, function() {
+            f.set({language:lang, questions:q, observerCount:0, playerCount:0}, function() {
                 document.location.href = "game.html?game=" + id;
             });
         });
