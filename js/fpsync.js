@@ -147,10 +147,10 @@ f.once('value', function(data) {
         codeMirror2 = CodeMirror(document.getElementById('firepad2'), otherPlayerFormat);
         $("#button1").click(function() {
             submitCode();
-        })
+        });
         $("#button2").click(function() {
             send_insult();
-        })
+        });
         $("#button2").append('<img src="img/finger.png">');
         $("#button1").append('<img src="img/submit.png">');
         document.getElementById('status').innerHTML = "Player 1";
@@ -162,10 +162,10 @@ f.once('value', function(data) {
         codeMirror2 = CodeMirror(document.getElementById('firepad2'), currPlayerFormat);
         $("#button2").click(function() {
             submitCode();
-        })
+        });
         $("#button1").click(function() {
             send_insult();
-        })
+        });
         $("#button1").append('<img src="img/finger.png">');
         $("#button2").append('<img src="img/submit.png">');
         document.getElementById('status').innerHTML = "Player 2";
