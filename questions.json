@@ -1,0 +1,38 @@
+{
+    "double": {
+        "python": "def double(x):\n  return -1",
+        "ruby": "def double(x)\n  return -1\nend",
+        "php": "function double($x)\n{\n  return -1;\n}",
+        "comments": "Double\n======\nGiven an integer x, double it.\n\nINPUT\n1\n\nOUTPUT\n2"
+    },
+    "square": {
+        "python": "def square(x):\n  return -1",
+        "ruby": "def square(x)\n  return -1\nend",
+        "php": "function square($x)\n{\n  return -1;\n}",
+        "comments": "Square\n======\nGiven an integer x, square it.\n\nINPUT\n-6\n\nOUTPUT\n36"
+    },
+    "prime": {
+        "python": "def prime(x):\n  return False",
+        "ruby": "def square(x)\n  return False\nend",
+        "php": "function square($x)\n{\n  return FALSE;\n}",
+        "comments": "Prime\n======\nGiven an integer x, determine if it is prime.\n\nINPUT\n2\n\nOUTPUT\nTrue"
+    },
+    "reverse": {
+        "python": "def reverse(x):\n  return ''",
+        "ruby": "def reverse(x)\n  return ''\nend",
+        "php": "function reverse($x)\n{\n  return '';\n}",
+        "comments": "Reverse\n======\nGiven an string s, reverse it\n\nINPUT\n\"hctibazzip\"\n\nOUTPUT\n\"pizzabitch\""
+    },
+    "sumlist": {
+        "python": "def sumlist(x):\n  return -1",
+        "ruby": "def sumlist(x)\n  return -1\nend",
+        "php": "function sumlist($x)\n{\n  return -1;\n}",
+        "comments": "Sumlist\n=======\nGiven an string of space separated integers, add them.\n\nINPUT\n\"1 2 3 4\"\n\nOUTPUT\n10"
+    },
+    "anagrams": {
+        "python": "def anagrams(x):\n  return \"\"",
+        "ruby": "def anagrams(x)\n  return \"\"\nend",
+        "php": "function anagrams($x)\n{\n  return \"\";\n}",
+        "comments": "Anagrams\n=======\nGiven an string of space separated strings, return a list of the counts of each unique group of anagrams found within the list.\n\nINPUT\n\"bat tab tub lol but\"\n\nOUTPUT\n\"2 2 1\""
+    }
+}
