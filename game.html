@@ -58,12 +58,15 @@
         </div>
         <div id="PlayerSubmit0" class="large-1 small-1 text-center columns">
             <div id="submit0" href="#" onclick="submitCode()" class="button"><img src="img/submit.png"></div>
+            <div id="insult0" href="#" onclick="send_insult()" class="button"><img src="img/fuck.jpg"></div>
+
         </div>
         <div id="OpponentOutput" class="large-5 small-11 columns">
             <div id="console2" class="firepadConsole"></div>
         </div>
         <div id="PlayerSubmit1" class="large-1 small-1 text-center columns">
             <div id="submit1" href="#" onclick="submitCode()" class="button"><img src="img/submit.png"></div>
+            <div id="insult0" href="#" onclick="send_insult()" class="button"><img src="img/fuck.jpg"></div>
         </div>
     </div>
 
@@ -75,7 +78,11 @@
       </div>
       <a class="close-reveal-modal">&#215;</a>
     </div>
-
+    <div id="JokeModal" class="code reveal-modal text-center">
+      <p><span id="jokeContent"></span></p>
+   
+      <a class="close-reveal-modal">&#215;</a>
+    </div>
 
 
     <script type="text/javascript" charset="utf-8" src="js/vendor/jquery.js"></script>
@@ -95,7 +102,6 @@
                 jokes.push("So what are you, a web developer?");
                 jokes.push("Your code is so bad your child processes disowned you.");
                 jokes.push("Are you sure your not an accountant working on a second career?");
-                jokes.push("A valiant effort, though. Do you work for Microsoft?");
                 jokes.push("Your code is so bloated, it requires its own zip code.");
                 jokes.push("I could have done that in three lines.");
                 jokes.push("What does your code have in common with C? No class.");

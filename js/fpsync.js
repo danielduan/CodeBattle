@@ -45,6 +45,12 @@ f.child('powerups').on('child_removed', function(data) {
     var question = data.name();
     powerupHandler(question, $("#"+question).attr('user'), $("#"+question).attr('type'));
 });
+f.child('insults').on('child_added', function(data) {
+    console.log(data.val());
+    if (data.val().player1 == player1) {
+        show_joke(data.val().message);
+    }
+});
 firepadConsole1.on('ready', function() {
     if (firepadConsole1.isHistoryEmpty()) {
         firepadConsole1.setText('');
@@ -232,6 +238,22 @@ function submitCode() {
         "jsonp"
     );
 }
+
+function send_insult() {
+    var jokes = new Array();
+    jokes.push("So what are you, a web developer?");
+    jokes.push("Your code is so bad your child processes disowned you.");
+    jokes.push("Are you sure your not an accountant working on a second career?");
+    jokes.push("Your code is so bloated, it requires its own zip code.");
+    jokes.push("I could have done that in three lines.");
+    jokes.push("What does your code have in common with C? No class.");
+    var message = jokes[Math.floor((Math.random()*jokes.length))];
+    console.log('message', message);
+    f.child('insults').push({
+        player1: !player1,
+        message: message
+    });
+}
 function clearPlayer(string) {
     if (player1) {
       console1.getDoc().setValue('');
@@ -335,6 +357,12 @@ function party_mode(player) {
         sound.pause();
     }, 15000)
 }
+
+function show_joke(message) {
+    document.getElementById('jokeContent').innerHTML = message
+    $('#JokeModal').foundation('reveal', 'open');
+}
+
 function powerupHandler(question, user, powerup) {
     $("#"+question).remove();
     
