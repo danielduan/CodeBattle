@@ -30,8 +30,8 @@ def get_test_cases(question):
 
   reverse = {
     "'shahid'"  : 'dihahs',
-    "'alex'"    : 'xela',
-    "'daniel'"  : 'leinad' ,
+    "'alex'"   : 'xela',
+    "'daniel'" : 'leinad' ,
     "'racecar'" : 'racecar',
     "''"        : '',
     "'a'"       : 'a'
@@ -62,14 +62,16 @@ def get_test_cases(question):
   }
   return question_dict[question]
 
-@app.route('/run_tests', methods = ['POST'])
+@app.route('/run_tests', methods = ['GET'])
 def run_tests():
+  # print 'first'
   callback = str(request.args['callback'])
   player = str(request.args['player'])
   code = str(request.args['code'])
   questions = json.loads(str(request.args['questions']))
-  print 'printing'
-  print len(questions)
+  # print "QS", questions
+  # print 'printing'
+  # print len(questions)
   lang = SYNTAX_TO_CODEPAD[request.args['lang']]
   results = get_results(code, lang, questions)
 
@@ -77,7 +79,7 @@ def run_tests():
 
 def get_results(code, lang, questions):
   full_code = parse_code(code, lang, questions)
-  print full_code
+  # print full_code
   codepad_url = 'http://codepad.org'
   query_params = {
     'code'    : full_code,
@@ -92,20 +94,29 @@ def get_results(code, lang, questions):
 
 def analyze_results(output, questions):
   print output
-  actual_outputs = [output.strip() for output in output.split('\n\n') if output!='']
+  actual_outputs = [output.strip() for output in output.split('!@#')][:-1]
   expected_outputs = [(question, output) for question in questions for output in get_test_cases(question).values()]
   print actual_outputs
   print expected_outputs
+  # results = {}
+
   results = {}
   i=0
+  last_question = ''
+  for expected in expected_outputs:
+    results[str(expected[0])] = {}
   for actual, expected in zip(actual_outputs, expected_outputs):
-    question = expected[0]
-    if (actual == expected[1]):
-      results[i] = (question, 'PASS')
-    elif ('error' in actual.lower()):
-      results[i] = (question, 'ERROR')
+
+    question = str(expected[0])
+    if question != last_question:
+      i = 0
+    last_question = question
+    if actual == expected[1]:
+      results[question][i] = 'PASS'
+    elif 'error' in actual.lower():
+      results[question][i] = 'ERROR'
     else:
-      results[i] = (question, 'FAIL')
+      results[question][i] = 'FAIL'
     i = i + 1
   return results
 
@@ -121,6 +132,7 @@ def parse_code(code, lang, questions):
 
 def get_print_statement(code, lang, question, test_case):
   function_call = question + '(' + test_case + ')'
+  print function_call
   print_statement = '\n'
   if lang == 'C' or lang == 'C++':
     print_statement += " \
@@ -128,9 +140,9 @@ def get_print_statement(code, lang, question, test_case):
           printf('%s\n\n'," + function_call + "); \
         }"
   elif lang == 'Python' or lang == 'Ruby':
-    print_statement += "print " + function_call + "\nprint \"\\n\""
+    print_statement += "print " + function_call + "+'!@#'\n"
   elif lang == 'PHP':
-    print_statement += "printf('%s\n\n'," + function_call + ");"
+    print_statement += "printf('%s!@#\n'," + function_call + ");"
   return print_statement
 
 if __name__ == '__main__':
