@@ -83,6 +83,13 @@ f.child('player2').child('userID').on('value', function(snapshot) {
         $("#player2Image").attr("src", "https://graph.facebook.com/"+snapshot.val()+"/picture");
     }
 });
+f.child('observers').on('child_added', function(data) {
+    var id=data.name();
+    $("#observers").append("<li id='"+id+"'><div style='display:hidden;'><img src='https://graph.facebook.com/"+id+"/picture' style='display:block;width:25px;'><span>Mark</span></div></li>");
+});
+f.child('observers').on('child_removed', function(data) {
+    $("#"+data.name()).remove();
+});
 f.child('insults').on('child_added', function(data) {
     console.log(data.val());
     if (data.val().player1 == player1 || observer) {
@@ -381,7 +388,7 @@ function removeLine(divID) {
 
     text = textArray.join("\n");
 
-    if (divID == 0) {
+    if (divID == 1) {
         firepad1.setText(text);
     } else {
         firepad2.setText(text);
@@ -427,5 +434,11 @@ function powerupHandler(question, user, powerup) {
             unblur(user);
         }
     }
-    console.log(question, powerup, user);
+    if (observer) {
+        show_joke("User " + (user + 1) + " sent " + powerup);
+        setTimeout(function() {
+            $('#JokeModal').foundation('reveal', 'close');
+        }, 500);
+    }
+    //console.log(question, powerup, user);
 }

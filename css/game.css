@@ -52,10 +52,13 @@
 }
 
 #Title {
-    font-size: 60px;
     padding:15px;
-    color: #8f908a;
     background-color: #3e3d32;
+}
+
+#TitleText {
+    font-size: 60px;    
+    color: #8f908a;
 }
 
 .top-bar {
@@ -111,6 +114,15 @@
 .powerup li
 {
 display: inline;
+list-style-type: none;
+padding-right: 10px;
+}
+#observers {
+    margin-bottom:-100px;
+}
+#observers li
+{
+display: inline-block;
 list-style-type: none;
 padding-right: 10px;
 }
