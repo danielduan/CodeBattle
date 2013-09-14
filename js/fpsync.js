@@ -56,6 +56,7 @@ f.once('value', function(data) {
         codeMirror2 = CodeMirror(document.getElementById('firepad2'), otherPlayerFormat);
         document.getElementById('submit1').className += ' disabled';
         document.getElementById('submit1').onclick = "";
+        document.getElementById('status').innerHTML = "Player 1";
     } else if (playerCount == 1) {
         player1 = false;
         f.child('playerCount').set(playerCount + 1);
@@ -63,6 +64,7 @@ f.once('value', function(data) {
         codeMirror2 = CodeMirror(document.getElementById('firepad2'), currPlayerFormat);
         document.getElementById('submit0').className += ' disabled';
         document.getElementById('submit0').onclick = "";
+        document.getElementById('status').innerHTML = "Player 2";
     } else {
         obsever = true;
         f.child('observerCount').set(observerCount + 1);
@@ -72,6 +74,7 @@ f.once('value', function(data) {
         document.getElementById('submit0').className += ' disabled';
         document.getElementById('submit1').onclick = "";
         document.getElementById('submit0').onclick = "";
+        document.getElementById('status').innerHTML = "Observer";
 
     }
     firepad1 = Firepad.fromCodeMirror(f.child('player1').child('code'), codeMirror1);
