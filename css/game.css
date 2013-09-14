@@ -65,7 +65,7 @@
 }
 
 .magenta {
-    color: #f92672;
+    color: #ffe3ed;
 }
 
 .yellow {
@@ -124,6 +124,11 @@ padding-right: 10px;
 .cm-s-pad {
     background-color:#EEE;
 }
+
+.cm-s-changed {
+    background-color: #ffdfe4;
+}
+
 .cm-s-console {
     background-color:#333;
     color:#EEE;

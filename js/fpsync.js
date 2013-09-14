@@ -203,6 +203,43 @@ function addPowerup(powerup, divID) {
     ul.insertBefore(li, ul.getElementsByTagName('li')[0]);
 }
 
+function removeLine(divID) {
+    var text;
+
+    if (divID == 0) {
+        text = firepad1.getText();
+        var oldTheme = codeMirror1.getOption('theme');
+        codeMirror1.setOption('theme', 'changed');
+        setTimeout(function() {
+            codeMirror1.setOption('theme', oldTheme);
+        }, 1000);
+    } else {
+        text = firepad2.getText();
+        var oldTheme = codeMirror2.getOption('theme');
+        codeMirror2.setOption('theme', 'changed');
+        setTimeout(function() {
+            codeMirror2.setOption('theme', oldTheme);
+        }, 1000);
+    }
+
+    var textArray = text.split('\n');
+
+    var index = Math.floor((Math.random()*textArray.length));
+
+    if (index > -1) {
+        textArray.splice(index, 1);
+    }
+
+    text = textArray.join("\n");
+
+    if (divID == 0) {
+        firepad1.setText(text);
+    } else {
+        firepad2.setText(text);
+    }
+}
+
+
 function powerupHandler() {
 
 }
