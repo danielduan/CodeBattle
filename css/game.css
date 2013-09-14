@@ -84,7 +84,7 @@
 }
 
 #PlayerDiv {
-    height:600px;
+    height:500px;
 }
 
 #FirepadDiv {
@@ -165,7 +165,7 @@ padding-right: 10px;
     display:inline-block;
 }
 .firepadContainer .firepad {
-    height:650px;
+    height:500px;
 }
 /* unused */
 
