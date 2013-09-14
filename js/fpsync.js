@@ -112,10 +112,27 @@ f.once('value', function(data) {
     });
 });
 function setOriginalText(data, firepad) {
-    var inital = "";
-    for(var i = 0; i < questions.length; i++) {
-        inital += data[questions[i]]["comments"] + "\n";
-        inital += data[questions[i]][language] + "\n";
+    var initial = "";
+    for (var i = 0; i < questions.length; i++) {
+        if (language == "python") {
+            initial += "\"\"\"\n";
+        } else if (language == "ruby") {
+            initial += "=begin\n";
+        } else if (language == "php") {
+            initial += "/*\n";
+        }
+        initial += data[questions[i]]["comments"] + "\n";
+        if (language == "python") {
+            initial += "\"\"\"\n";
+        } else if (language == "ruby") {
+            initial += "=end\n";
+        } else if (language == "php") {
+            initial += "*/\n";
+        }
+        initial += data[questions[i]][language] + "\n";
+        if (i < questions.length - 1) {
+            initial += "\n";
+        }
     }
     firepad.setText(initial);
 };
@@ -127,16 +144,18 @@ function submitCode() {
         code = codeMirror1.getDoc().getValue();
     }
     $.get(
-        "http://codebattle.aws.af.cm/run_tests",
-        { game: gameNum, player: player, code: code, question: questions[0], lang: language },
+        "http://codebattle.ngrok.com/run_tests",
+        { game: gameNum, player: player, code: code, questions: JSON.stringify(questions), lang: language },
         function(data){
             var allQuestionsPassed = true;
             for (var i = 0; i < questions.length; i++) {
-                append("Question: " + questions[i]);
+                var question = questions[i];
+                append("Question: " + question);
                 var allTestsPassed = true;
-                for (var key in data/*[i]*/) {
-                    append("Test Case " + key + ": " + data/*[i]*/[key]);
-                    if (data/*[i]*/[key] != "PASS") {
+                for (var key in data[question]) {
+                    var val = data[question][key];
+                    append("Test Case " + key + ": " + val);
+                    if (val != "PASS") {
                         allTestsPassed = false;
                     }
                 }

@@ -67,7 +67,7 @@
 			var game = Math.floor((Math.random()*5));
 			var lang = document.getElementById('LanguageSelector').value;
 			var f = new Firebase("https://codebattle.firebaseio.com/games/"+id);
-			var q = ["double", "reverse"];
+			var q = ["double","square","prime","reverse","sumlist","anagrams"];
 			f.set({language:lang, questions:q}, function() {
 				document.location.href = "game.html?game=" + id;
 			});
