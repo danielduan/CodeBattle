@@ -1,0 +1,71 @@
+<!doctype html>
+<!-- See http://www.firepad.io/docs/ for detailed embedding docs. -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <script src="https://cdn.firebase.com/v0/firebase.js"></script>
+    <script src="codemirror/lib/codemirror.js"></script>
+    <script src="codemirror/mode/javascript/javascript.js"></script>
+    <link rel="stylesheet" href="codemirror/lib/codemirror.css" />
+    <script src="firepad.js"></script>
+    <link rel="stylesheet" href="firepad.css" />
+</head>
+<body style="background-color:black;">
+    <div id="firepad1" style="width:40%;display:inline-block;margin-left:5%"></div>
+    <div id="firepad2" style="width:40%;display:inline-block;margin-left:10%"></div>
+    <script>
+        var gameNum = getParam('game');
+        if (!gameNum) {
+            document.location.href = "/";
+        }
+        var f = new Firebase('https://codebattle.firebaseio.com/games/game'+gameNum);
+        var player1, codeMirror1, codeMirror2, firepad1, firepad2;
+        var currPlayerFormat = {
+            lineNumbers: true,
+            mode: 'javascript',
+            autofocus: true
+        };
+        var otherPlayerFormat = {
+            lineNumbers: true,
+            mode: 'javascript',
+            readOnly: "nocursor"
+        };
+        var obsever = false;
+        f.child('playerCount').once('value', function(data) {
+            if (!data.val() || data.val() == 0) {
+                player1 = true;
+                f.child('playerCount').set(data.val()+1);
+                codeMirror1 = CodeMirror(document.getElementById('firepad1'), currPlayerFormat);
+                codeMirror2 = CodeMirror(document.getElementById('firepad2'), otherPlayerFormat);
+            } else if (data.val() == 1) {
+                player1 = false;
+                f.child('playerCount').set(data.val()+1);
+                codeMirror1 = CodeMirror(document.getElementById('firepad1'), otherPlayerFormat);
+                codeMirror2 = CodeMirror(document.getElementById('firepad2'), currPlayerFormat);
+            } else {
+                obsever = true;
+                f.child('observerCount').transaction(function(current_value) {
+                    return current_value + 1;
+                });
+                codeMirror1 = CodeMirror(document.getElementById('firepad1'), otherPlayerFormat);
+                codeMirror2 = CodeMirror(document.getElementById('firepad2'), otherPlayerFormat);
+            }
+            firepad1 = Firepad.fromCodeMirror(f.child('player1').child('code'), codeMirror1);
+            firepad2 = Firepad.fromCodeMirror(f.child('player2').child('code'), codeMirror2);
+            firepad1.on('ready', function() {
+                if (firepad1.isHistoryEmpty()) {
+                    firepad1.setText('Player 1');
+                }
+            });
+            firepad2.on('ready', function() {
+                if (firepad2.isHistoryEmpty()) {
+                    firepad2.setText('Player 2');
+                }
+            });
+        });
+        function getParam(name) {
+            return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
+        }
+    </script>
+</body>
+</html>
