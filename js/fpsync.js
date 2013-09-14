@@ -123,30 +123,35 @@ f.once('value', function(data) {
         f.child('playerCount').set(playerCount + 1);
         codeMirror1 = CodeMirror(document.getElementById('firepad1'), currPlayerFormat);
         codeMirror2 = CodeMirror(document.getElementById('firepad2'), otherPlayerFormat);
-        document.getElementById('submit1').className += ' disabled';
-        document.getElementById('insult1').className += ' disabled';
-        document.getElementById('submit1').onclick = "";
+        $("#button1").click(function() {
+            submitCode();
+        })
+        $("#button2").click(function() {
+            send_insult();
+        })
+        $("#button2").append('<img src="img/finger.png">');
+        $("#button1").append('<img src="img/submit.png">');
         document.getElementById('status').innerHTML = "Player 1";
     } else if (playerCount == 1) {
         player1 = false;
         f.child('playerCount').set(playerCount + 1);
         codeMirror1 = CodeMirror(document.getElementById('firepad1'), otherPlayerFormat);
         codeMirror2 = CodeMirror(document.getElementById('firepad2'), currPlayerFormat);
-        document.getElementById('submit0').className += ' disabled';
-        document.getElementById('insult0').className += ' disabled';
-        document.getElementById('submit0').onclick = "";
+        $("#button2").click(function() {
+            submitCode();
+        })
+        $("#button1").click(function() {
+            send_insult();
+        })
+        $("#button1").append('<img src="img/finger.png">');
+        $("#button2").append('<img src="img/submit.png">');
         document.getElementById('status').innerHTML = "Player 2";
     } else {
         observer = true;
         f.child('observers').child(userID).set(true);
         codeMirror1 = CodeMirror(document.getElementById('firepad1'), observerFormat);
         codeMirror2 = CodeMirror(document.getElementById('firepad2'), observerFormat);
-        document.getElementById('submit1').className += ' disabled';
-        document.getElementById('insult1').className += ' disabled';
-        document.getElementById('submit0').className += ' disabled';
-        document.getElementById('insult0').className += ' disabled';
-        document.getElementById('submit1').onclick = "";
-        document.getElementById('submit0').onclick = "";
+
         document.getElementById('status').innerHTML = "Observer";
     }
     firepad1 = Firepad.fromCodeMirror(f.child('player1').child('code'), codeMirror1);
