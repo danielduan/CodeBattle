@@ -52,13 +52,34 @@ def get_test_cases(question):
     "'pace epac four tink knit row'" : "'2 2 1 1'"
   }
 
+  string_match = {
+    "'xxcaazz xxbaaz'" : '3',
+    "'abc abc'"        : '2',
+    "'abc axc'"        : '0',
+  }
+
+  median = {
+    "'1 2 3 4 5'"   : '3',
+    "'4 1 7 -1 2'"  : '2',
+    "'0'"           : '0',
+  }
+
+  thirty_times = {
+    "'b'"   : 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+    "'NaN'" : 'NaNNaNNaNNaNNaNNaNNaNNaNNaNNaNNaNNaNNaNNaNNaNNaNNaNNaNNaNNaNNaNNaNNaNNaNNaNNaNNaNNaNNaNNaN',
+    "' '"   : '                              ',
+  }
+
   question_dict = {
-    'double'  : double,
-    'square'  : square,
-    'prime'   : prime,
-    'reverse' : reverse,
-    'sumlist' : sumlist,
-    'anagrams': anagrams
+    'double'      : double,
+    'square'      : square,
+    'prime'       : prime,
+    'reverse'     : reverse,
+    'sumlist'     : sumlist,
+    'anagrams'    : anagrams,
+    'string_match': string_match,
+    'median'      : median,
+    'thirty_times': thirty_times
   }
   return question_dict[question]
 
