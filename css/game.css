@@ -125,8 +125,8 @@ padding-right: 10px;
     color:#EEE;
 }
 .cm-s-blurry {
-    color: transparent !important;
-    text-shadow: 0 0 5px rgba(0,0,0,0.5);
+    color: rgba(0,0,0,0);
+    text-shadow: 0 0 10px rgba(0,0,0,0.4);
 }
 .CodeMirror-gutters {
     height: 100% !important;

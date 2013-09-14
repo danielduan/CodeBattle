@@ -61,7 +61,7 @@ f.once('value', function(data) {
     };
     var otherPlayerFormat = {
         lineNumbers: true,
-        mode: languageName,
+        mode: "text/plain",
         indentUnit: 4,
         tabMode: "shift",
         theme: 'default pad blurry',
