@@ -121,7 +121,7 @@ padding-right: 10px;
 }
 
 /* firepad */
-.cm-s-pad {
+.cm-s-default {
     background-color:#EEE;
 }
 
@@ -138,7 +138,7 @@ padding-right: 10px;
     text-shadow: 0 0 10px rgba(0,0,0,0.4);
 }
 .cm-s-party {
-    
+
 }
 .CodeMirror-gutters {
     height: 100% !important;

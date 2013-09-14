@@ -16,14 +16,14 @@ console2 = CodeMirror(document.getElementById('console2'), consoleFormat);
 firepadConsole1 = Firepad.fromCodeMirror(f.child('player1').child('console'), console1);
 firepadConsole2 = Firepad.fromCodeMirror(f.child('player2').child('console'), console2);
 f.child('player1').child('console').on('value', function() {
-    console1.getDoc().setCursor(9007199254740992, 0);
+    console1.getDoc().setCursor(0, 0);
 });
 f.child('player2').child('console').on('value', function() {
-    console2.getDoc().setCursor(9007199254740992, 0);
+    console2.getDoc().setCursor(0, 0);
 });
 f.child('winner').on('value', function(data) {
     if (data.val()) {
-        if (player1 && data.val() == 'player1' || !player1 && data.val() != 'player1') {
+        if (player1 && data.val() == 'player1' || !player1 && data.val() != 'player2') {
             displayModal('You have won :D');
         } else {
             displayModal('You have lost :(');
@@ -33,11 +33,17 @@ f.child('winner').on('value', function(data) {
 f.child('powerups').on('child_added', function(data) {
     var powerup = "party";
     var question = data.name();
+    var difficulty = problems[question]['difficulty'];
+    var powerup = "shield";
     if (data.val() == "player1") {
         addPowerup(question, powerup, 0);
     } else {
         addPowerup(question, powerup, 1);
     }
+});
+f.child('powerups').on('child_removed', function(data) {
+    var question = data.name();
+    powerupHandler(question, $("#"+question).attr('user'), $("#"+question).attr('type'));
 });
 firepadConsole1.on('ready', function() {
     if (firepadConsole1.isHistoryEmpty()) {
@@ -65,7 +71,7 @@ f.once('value', function(data) {
         mode: languageName,
         indentUnit: 4,
         tabMode: "shift",
-        theme: 'default pad',
+        theme: 'default',
         autofocus: true
     };
     var otherPlayerFormat = {
@@ -73,7 +79,7 @@ f.once('value', function(data) {
         mode: "text/plain",
         indentUnit: 4,
         tabMode: "shift",
-        theme: 'default pad blurry',
+        theme: 'blurry',
         readOnly: 'nocursor'
     };
     var observerFormat = {
@@ -81,7 +87,7 @@ f.once('value', function(data) {
         mode: languageName,
         indentUnit: 4,
         tabMode: "shift",
-        theme: 'default pad',
+        theme: 'default',
         readOnly: 'nocursor'
     };
     if (!playerCount || playerCount == 0) {
@@ -178,6 +184,7 @@ function setOriginalText(data, firepad) {
 function submitCode() {
     if (observer) return;
     var player = "2";
+    clearPlayer(player);
     var code = codeMirror2.getDoc().getValue();
     if (player1) {
         player = "1";
@@ -200,13 +207,14 @@ function submitCode() {
                     }
                 }
                 if (allTestsPassed) {
-                    f.child('powerups').child(question).once('value', function(data) {
+                    f.child('questionsDone').child(question).once('value', function(data) {
                         if (!data.val()) {
                             var playerName = "player2";
                             if (player1) {
                                 playerName = "player1";
                             }
-                            f.child('powerups').child(question).set(playerName);
+                            f.child('powerups').child(data.name()).set(playerName);
+                            f.child('questionsDone').child(data.name()).set(playerName);
                         }
                     });
                 } else {
@@ -223,6 +231,13 @@ function submitCode() {
         },
         "jsonp"
     );
+}
+function clearPlayer(string) {
+    if (player1) {
+      console1.getDoc().setValue('');
+    } else {
+      console2.getDoc().setValue('');
+    }
 }
 function append(string) {
     if (player1) {
@@ -243,7 +258,7 @@ function addPowerup(question, powerup, divID) {
     li.innerHTML=newListItem;
     ul.insertBefore(li, ul.getElementsByTagName('li')[0]);
     $("#"+question).click(function() {
-        powerupHandler(this.getAttribute('id'), this.getAttribute('user'), this.getAttribute('type'));
+        f.child('powerups').child(this.getAttribute('id')).remove();
     });
 }
 
@@ -256,6 +271,13 @@ function getCodeMirror(player) {
     }
 }
 
+function getCodeDiv(player) {
+    if (player === "1" ) {
+        return "PlayerDiv";
+    } else {
+        return "OpponentDiv";
+    }
+}
 function removeLine(divID) {
     var text;
 
@@ -298,29 +320,30 @@ function unblur(player) {
     thisCodeMirror.setOption('theme', 'default pad');
     setTimeout(function() {
         thisCodeMirror.setOption('theme', previousTheme);
-    }, 3000)
+    }, 5000)
 }
 
 function party_mode(player) {
+    var codeDiv = getCodeDiv(player);
     var thisCodeMirror = getCodeMirror(player);
-    var previousTheme = thisCodeMirror.getOption('theme');
-    thisCodeMirror.setOption('theme', 'party');
-    $(".cm-s-party .CodeMirror-code").blink();
+    var theme = thisCodeMirror.getOption('theme');
+    $("#" + codeDiv + " .CodeMirror-code").blink();
+    var sound = new Audio('assets/music.mp3');
+    sound.play();
     setTimeout(function() {
-        $(".cm-s-party .CodeMirror-code").unblink();
-        thisCodeMirror.setOption('theme', previousTheme);
-    }, 3000)
+        $("#" + codeDiv + " .CodeMirror-code").unblink();
+        sound.pause();
+    }, 15000)
 }
 function powerupHandler(question, user, powerup) {
     $("#"+question).remove();
-
+    
     if ((user == 0 && player1) || (user == 1 && !player1)) {
         if (powerup == 'party') {
             party_mode(user);
         } else if (powerup == 'party') {
             removeLine(user);
         }
-
     }
     console.log(question, powerup, user);
 }
