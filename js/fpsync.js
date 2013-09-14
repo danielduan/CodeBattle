@@ -206,3 +206,31 @@ function addPowerup(powerup, divID) {
 function powerupHandler() {
 
 }
+
+function getCodeMirror(player) {
+    if (player=="1") {
+        return codeMirror1;
+    } else {
+        return codeMirror2;
+    }
+}
+
+function unblur(player) {
+    var thisCodeMirror = getCodeMirror(player);
+    var previousTheme = thisCodeMirror.getOption('theme');
+    thisCodeMirror.setOption('theme', 'default pad');
+    setTimeout(function() {
+        thisCodeMirror.setOption('theme', previousTheme);
+    }, 3000)
+}
+
+function party_mode(player) {
+    var thisCodeMirror = getCodeMirror(player);
+    var previousTheme = thisCodeMirror.getOption('theme');
+    thisCodeMirror.setOption('theme', 'party');
+    $(".cm-s-party .CodeMirror-code").blink();
+    setTimeout(function() {
+        $(".cm-s-party .CodeMirror-code").unblink();
+        thisCodeMirror.setOption('theme', previousTheme);
+    }, 3000)
+}
