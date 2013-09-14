@@ -1,0 +1,63 @@
+.code {
+	font-family: "Courier New", Courier, monospace;
+}
+
+#Title {
+	font-size: 60px;
+	color: #8f908a;
+	background-color: #3e3d32;
+	text-align: center;
+}
+
+.top-bar {
+	background-color: #3e3d32;
+	c
+}
+
+.blue {
+	color: #66d9ef;
+	font-style: italic;
+}
+
+.white {
+	color: #ffffff;
+}
+
+.magenta {
+	color: #f92672;
+}
+
+.yellow {
+	color: #e3d873;
+}
+
+.purple {
+	color: #ae81ff;
+}
+
+#PlayerDiv {
+	height:600px;
+}
+
+/* unused */
+
+#GameStartDiv .button {
+	background-color: #3e3d32;
+	border-style: none;
+	font-weight: 300;
+}
+
+#Text {
+	text-align: left;
+}
+
+#LineNum {
+	text-align: right;
+	color: #8f908a;
+	background-color: #3e3d32;
+}
+
+body {
+	background-color: #272822;
+	color:white;
+}
