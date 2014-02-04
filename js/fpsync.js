@@ -110,7 +110,7 @@ firepadConsole2.on('ready', function() {
     }
 });
 f.once('value', function(data) {
-    var playerCount = data.child('playerCount').val();
+    playerCount = data.child('playerCount').val();
     language = data.child('language').val();
     var languageName = "text/x-" + language;
     if (languageName == "python") {
@@ -151,6 +151,7 @@ f.once('value', function(data) {
     };
     if (!playerCount || playerCount == 0) {
         player1 = true;
+        playerCount = 0;
         f.child('playerCount').set(playerCount + 1);
         f.child('player1').child('userID').set(userID);
         codeMirror1 = CodeMirror(document.getElementById('firepad1'), currPlayerFormat);
