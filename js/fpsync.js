@@ -110,7 +110,7 @@ firepadConsole2.on('ready', function() {
     }
 });
 f.once('value', function(data) {
-    var playerCount = data.child('playerCount').val();
+    playerCount = data.child('playerCount').val();
     language = data.child('language').val();
     var languageName = "text/x-" + language;
     if (languageName == "python") {
