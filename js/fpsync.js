@@ -8,6 +8,7 @@ var f = new Firebase('https://codebattle.firebaseio.com/games/'+gameNum);
 var auth = new FirebaseSimpleLogin(f, function(error, user) {
     if (user) {
         userID = user.id;
+        listen();
     } else {
         document.location.href = "index.html";
     }
@@ -109,6 +110,7 @@ firepadConsole2.on('ready', function() {
         firepadConsole2.setText('');
     }
 });
+function listen() {
 f.once('value', function(data) {
     playerCount = data.child('playerCount').val();
     language = data.child('language').val();
@@ -228,6 +230,7 @@ f.once('value', function(data) {
         }
     });
 });
+}
 function setOriginalText(data, firepad) {
     var initial = "";
     for (var i = 0; i < questions.length; i++) {
